@@ -47,7 +47,7 @@ export default {
             ],
             grids:[
                 [
-                    'img_url1',
+                    'img_url1.5',
                     'img_url2',
                     'img_url3'
                 ],
