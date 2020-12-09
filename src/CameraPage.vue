@@ -26,8 +26,8 @@
   </div>
   
   <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
-    <a id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="downloadImage">
-      Download
+    <a id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="uploadFile">
+      Upload
     </a>
   </div>
 </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-
+import AWS from 'aws-sdk'
 export default {
     name:'CameraCapture',
     data() {
@@ -115,7 +115,39 @@ export default {
     .replace("image/jpeg", "image/octet-stream");
       download.setAttribute("href", canvas);
     },
-    
+    uploadFile() { 
+      // aws configuration
+      AWS.config.update({
+        region: 'us-east-1',
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: 'us-east-1:5d8864f0-e6ef-47ac-8072-82b45e5d5627'
+        })
+      });
+
+      //s3 버킷 설정
+      const s3 = new AWS.S3({
+        apiVersion: '2006-03-01',
+        params: {
+          Bucket: 'clothes-photo'
+        }
+      })
+
+      // 업로드 함수
+      let canvas = document.getElementById("photoTaken")
+      canvas.toBlob((blob)=>s3.upload({
+        Key: "sending_image.jpeg",
+        Body: blob,
+        ACL: 'public-read'
+      }, (err, data) => {
+        if(err) {
+          console.log(err)
+          return alert('There was an error: ', err.message);
+        }
+        alert('Successfully uploaded photo.');
+        console.log(data.Contents)
+      }),"image/jpeg", 1.0)
+      //this.$refs.canvas.toBlob
+    }
   },
   mounted() {
     this.toggleCamera();

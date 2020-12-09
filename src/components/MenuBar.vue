@@ -1,7 +1,8 @@
 <template>
     <div class="grid-menubar">
         <div class="grid-menubox" v-for="(menuItem, idx) in menuItems" :key="{idx}.idx" :class="{ 'grid-seperate' : idx + 1 !== menuSize }">
-            <div class="grid-menuitem" @mouseenter="hoverAction(idx)" @mouseleave="hoverAction(idx)" :class="{ 'grid-hover' : hovered[idx]? hovered[idx].hover : false }">{{menuItem.txt}}</div>
+            <div class="grid-menuitem" @mouseenter="hoverAction(idx)" @mouseleave="hoverAction(idx)" 
+            :class="{ 'grid-hover' : hovered[idx]? hovered[idx].hover : false }">{{menuItem.txt}}</div>
         </div>
     </div>
 </template>
