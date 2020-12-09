@@ -114,7 +114,8 @@ export default {
       const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
     .replace("image/jpeg", "image/octet-stream");
       download.setAttribute("href", canvas);
-    }
+    },
+    
   },
   mounted() {
     this.toggleCamera();

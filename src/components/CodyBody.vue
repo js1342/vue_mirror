@@ -1,7 +1,7 @@
 <template>
   <div class="container">
         <div class="mainbox">
-            <menu-bar/>
+            <menu-bar :menuItems="codyBar"/>
             <cody-grid/>
         </div> 
     </div>

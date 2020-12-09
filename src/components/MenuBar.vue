@@ -1,24 +1,44 @@
 <template>
-  <div class="grid-menubar">
-    <div class="grid-menubox grid-seperate">
-        <div class="grid-menuitem">코디 보기</div>
+    <div class="grid-menubar">
+        <div class="grid-menubox" v-for="(menuItem, idx) in menuItems" :key="{idx}.idx" :class="{ 'grid-seperate' : idx + 1 !== menuSize }">
+            <div class="grid-menuitem" @mouseenter="hoverAction(idx)" @mouseleave="hoverAction(idx)" :class="{ 'grid-hover' : hovered[idx]? hovered[idx].hover : false }">{{menuItem.txt}}</div>
+        </div>
     </div>
-    <div class="grid-menubox grid-seperate">  
-        <div class="grid-menuitem">상의</div>
-    </div>
-    <div class="grid-menubox grid-seperate">
-        <div class="grid-menuitem">하의</div>
-    </div>
-    <div class="grid-menubox">
-        <div class="grid-menuitem">악세사리</div>
-    </div>
-  </div>
 </template>
 
 <script>
-
+// eslint-disable-next-line no-unused-vars
+function fillArrayWithNumbers(n) {
+    var arr = Array.apply(null, Array(n));
+    return arr.map(function (x, i) { return i });
+}
+function ArrayWithFalse(n) {
+    return Array.apply(null, Array(n)).map(function(){return {'hover':false}});
+}
 export default {
   name: 'Menubar',
+  props:{
+    menuItems:{type:Array, default:()=>[]}
+  },
+  computed:{
+    menuSize:function(){
+        return this.menuItems.length
+    }
+  },
+   data(){
+       return {
+            hovered:Array
+       }
+  },
+  mounted(){
+    this.hovered = ArrayWithFalse(this.menuSize);
+  },
+  methods:{
+        hoverAction:function(k){
+            this.hovered[k].hover = !this.hovered[k].hover
+            //console.log("hovered["+k+"] : " + this.hovered[k])
+        }
+  }
 }
 </script>
 
@@ -50,9 +70,9 @@ export default {
 .grid-seperate{
     border-right:4px solid #dadada;
 }
-.grid-menuitem:hover{
+.grid-hover{
     display:inline-flex;
     text-align:center;
-    background-color: #111;
+    background-color: #222;
 }
 </style>
