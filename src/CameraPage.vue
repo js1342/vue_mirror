@@ -1,6 +1,6 @@
 <template>
   <div class="web-camera-container">
-   
+    
   
     <div v-show="isCameraOpen && isLoading" class="camera-loading">
       <ul class="loader-circle">
