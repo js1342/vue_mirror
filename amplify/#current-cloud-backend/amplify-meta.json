@@ -1,0 +1,39 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-betweenclosetapp-dev-105050-authRole",
+      "UnauthRoleArn": "arn:aws:iam::538765035567:role/amplify-betweenclosetapp-dev-105050-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::538765035567:role/amplify-betweenclosetapp-dev-105050-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-betweenclosetapp-dev-105050-deployment",
+      "UnauthRoleName": "amplify-betweenclosetapp-dev-105050-unauthRole",
+      "StackName": "amplify-betweenclosetapp-dev-105050",
+      "StackId": "arn:aws:cloudformation:us-east-2:538765035567:stack/amplify-betweenclosetapp-dev-105050/a54621e0-382e-11eb-8a0f-06709238a494",
+      "AmplifyAppId": "d2xd81z61ucp55"
+    }
+  },
+  "auth": {
+    "betweenclosetapp8de15b85": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-betweenclosetapp-dev-105050-deployment/amplify-cfn-templates/auth/betweenclosetapp8de15b85-cloudformation-template.yml",
+        "logicalId": "authbetweenclosetapp8de15b85"
+      },
+      "lastPushTimeStamp": "2020-12-07T02:03:52.029Z",
+      "output": {
+        "UserPoolId": "us-east-2_ODX0gWpK3",
+        "AppClientIDWeb": "7dnuv3biadjlmffj73oskmcdg5",
+        "AppClientID": "7lqjhs3t1ljt7j1nkth4b2nq8c",
+        "HostedUIDomain": "js1342-dev",
+        "IdentityPoolId": "us-east-2:f71470a2-0291-475a-8c0e-f148a2ab88a9",
+        "IdentityPoolName": "betweenclosetapp8de15b85_identitypool_8de15b85__dev",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"js1342://callback/\"],\"LogoutURLs\":[\"js1342://signout/\"]}",
+        "UserPoolName": "betweenclosetapp8de15b85_userpool_8de15b85"
+      },
+      "lastPushDirHash": "zJ0i/6/oyhAxeG6PBwz5P0r1RkY="
+    }
+  }
+}
