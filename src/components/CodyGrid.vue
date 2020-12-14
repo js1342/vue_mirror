@@ -1,31 +1,67 @@
 <template>
     <div class="grid-img-container">
-        <div class="grid-img btn-base">1</div>
-        <div class="grid-img btn-base">2</div>
-        <div class="grid-img btn-base">3</div>
-        <div class="grid-img btn-base">4</div>
-        <div class="grid-img btn-base">5</div>
-        <div class="grid-img btn-base">6</div>
-        <div class="grid-img btn-base">7</div>
-        <div class="grid-img btn-base">8</div>
-        <div class="grid-img btn-base">9</div>
+        <div class="lbutton lr"><font-awesome-icon icon="caret-left"/></div>
+
+        <div class="images grid-img btn-base">{{index}}</div>
+        <div class="images grid-img btn-base">{{index}}</div>
+
+        <div class="rbutton lr"><font-awesome-icon icon="caret-right"/></div>
+        <div class="images grid-img btn-base">{{index}}</div>
+        <div class="images grid-img btn-base">{{index}}</div>
+
+
+
     </div>
 </template>
 
 <script>
+
 export default {
-    name:'CodyGrid'
+    name:'CodyGrid',
+    props:{
+        index:Number
+    },
+    data(){
+        return{
+            dat:0
+        }
+    }
 }
 </script>
 
-<style>
+<style scoped>
 .grid-img-container{
     width:100%;
     display:grid;
     margin-top:10rem;
     overflow:hidden;
-    grid-template-columns:repeat(3,33%);
-    grid-template-rows:repeat(3,30rem);
+    grid-template-columns:8% 42% 42% 8%;
+    grid-template-rows:repeat(2,40rem);
+    grid-template-areas:
+        "left-button image1 image2 right-button"
+        "left-button image3 image4 right-button";
+}
+.images{
+     grid-area:image1, image2, image3, image4;   
+}
+
+.rbutton{
+    grid-area: right-button;
+}
+.lbutton{
+    grid-area:left-button 
+}
+.lr{
+    font-size:7rem;
+    color: #dadada;
+    display:flex;
+    margin:0.5rem;
+    border-radius:0.4rem;
+    background-color: #101010;
+    align-items: center;
+    flex-direction: column;
+    justify-content:center;
+    vertical-align:middle;
 }
 .grid-img{
     width:80%;
@@ -47,7 +83,7 @@ export default {
     justify-content: center;
     vertical-align: middle;
     color:#dadada;
-    margin:1rem auto 1rem auto; 
+    margin:2rem auto 0 auto; 
     padding:auto;
     outline:none;
     box-shadow:0 0 1rem #e6e6e6; 

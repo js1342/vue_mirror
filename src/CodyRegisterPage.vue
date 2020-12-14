@@ -1,65 +1,41 @@
 <template>
-  <div class="container">
+   <div class="container">
         <div class="mainbox">
-            <menu-bar @menu-select="menuSelected" :menuItems="codyBar" :selected="this.selected"/>
-            <cody-grid :index="this.selected"/>
+            <menu-bar @menu-select="menuSelected" :menuItems="codyBar"/>
+            <register-grid style="margin-top:10rem;"/>
+            <register-grid/>
         </div> 
     </div>
+
 </template>
 
 <script>
-import MenuBar from './MenuBar.vue'
-import CodyGrid from './CodyGrid.vue'
+import MenuBar from './components/MenuBar.vue'
+import RegisterGrid from './components/RegisterGrid.vue'
+
 export default {
-    name:"CodyBody",
-    components:{
-        MenuBar,
-        CodyGrid
+    components: { 
+      MenuBar,
+        RegisterGrid,
     },
-    props:{
-        selected:Number
-    },
-    methods:{
-        menuSelected(input){
-            //this.selected=input
-            this.$emit('menuSel',input)
-        }
-    },
+    name:'CodyRegisterPage',
     data(){
-        return {
+        return{
+            state:0,
             codyBar:[
                 {
-                    txt:'코디',
+                    txt:'오늘의 코디',
                     type:'txt',
                     url:'./1',
                     icon:'None',
                 },
                 {
-                    txt:'상의',
+                    txt:'저장하기',
                     type:'txt',
                     url:'./2',
                     icon:'None',
                 },
-                 {
-                    txt:'하의',
-                    type:'txt',
-                    url:'./2',
-                    icon:'None',
-                },
-                 {
-                    txt:'한벌',
-                    type:'txt',
-                    url:'./2',
-                    icon:'None',
-                },
-                {
-                    txt:'아우터',
-                    type:'txt',
-                    url:'./2',
-                    icon:'None',
-                },
-                
-            ],
+            ]
         }
     }
 }

@@ -1,8 +1,10 @@
 <template>
-    <div class="grid-menubar">
+    <div class="grid-menubar" :style="gridStyle">
         <div class="grid-menubox" v-for="(menuItem, idx) in menuItems" :key="{idx}.idx" :class="{ 'grid-seperate' : idx + 1 !== menuSize }">
-            <div class="grid-menuitem" @mouseenter="hoverAction(idx)" @mouseleave="hoverAction(idx)" 
-            :class="{ 'grid-hover' : hovered[idx]? hovered[idx].hover : false }">{{menuItem.txt}}</div>
+            <div class="grid-menuitem" v-on:mouseenter="hoverAction(idx)" v-on:mouseleave="hoverAction(idx)" v-on:click="clickAction(idx)"
+            :class="{ 
+                'grid-hover' : hovered[idx]? hovered[idx].hover : false, 
+                'selected' : idx === selected}">{{menuItem.txt}}</div>
         </div>
     </div>
 </template>
@@ -19,18 +21,23 @@ function ArrayWithFalse(n) {
 export default {
   name: 'Menubar',
   props:{
+    selected:{type:Number, default:0},
     menuItems:{type:Array, default:()=>[]}
   },
   computed:{
     menuSize:function(){
         return this.menuItems.length
+    },
+    gridStyle(){
+        return {
+            gridTemplateColumns:`repeat(${this.menuSize}, ${Math.floor(100/this.menuSize)}%)`}
+        }
+     },
+    data(){
+    return {
+        hovered:Array,
     }
-  },
-   data(){
-       return {
-            hovered:Array
-       }
-  },
+    },
   mounted(){
     this.hovered = ArrayWithFalse(this.menuSize);
   },
@@ -38,6 +45,10 @@ export default {
         hoverAction:function(k){
             this.hovered[k].hover = !this.hovered[k].hover
             //console.log("hovered["+k+"] : " + this.hovered[k])
+        },
+        clickAction(id){
+            this.selected = id;
+            this.$emit("menu-select", this.selected)      
         }
   }
 }
@@ -48,7 +59,7 @@ export default {
     width:100%;
     display:grid;
     margin-top:100px;
-    grid-template-columns:repeat(4,25%);
+
 }
 .grid-menubox{
     display:inline-flex;
@@ -58,7 +69,6 @@ export default {
 }
 .grid-menuitem{
     width:90%;
-    height:100%;
     display:inline-flex;
     justify-content: center;
     margin:0 auto;
@@ -72,6 +82,11 @@ export default {
     border-right:4px solid #dadada;
 }
 .grid-hover{
+    display:inline-flex;
+    text-align:center;
+    background-color: #222;
+}
+.selected{
     display:inline-flex;
     text-align:center;
     background-color: #222;

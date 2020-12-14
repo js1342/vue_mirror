@@ -13,7 +13,7 @@ export default {
     btns: {type: Array, default:()=>[] }
   },
   components: {
-    "MirButton" : MirButton
+    MirButton
   },
 
 }
@@ -27,4 +27,5 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 </style>

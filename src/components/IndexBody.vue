@@ -1,87 +1,79 @@
 <template>
-  <div class="container">
+    <div class="container">
      
         <div class="greeting">
-            <h1>안녕하세요?</h1>
-            <h1>땡땡떙 님</h1>
+            <h1>안녕하세요? 홍길동 님</h1>
         </div>
         <div class="mainbox">
-            <button-area :btns="baseMenu"/>
-            <button-area :btns="codyMenu"/>
-            <div class="bottom">
-                <div class="bottom-txt">오늘의 추천</div>
-                <button-area style="margin-top:5rem;padding:0;" :btns="bottomMenu"/>
-            </div>
+            <vertical-menu @v-menu-selected="raiseEvent" :btns="VMenu"/>
         </div> 
     </div>
 </template>
 
 <script>
-import ButtonArea from './ButtonArea.vue'
+import VerticalMenu from './VerticalMenu.vue'
+
 
 export default {
     name:"IndexBody",
     components:{
-        ButtonArea
+        VerticalMenu
+    },
+    methods:{
+        raiseEvent(num){
+            this.$emit('menuSel', num)
+        },
     },
     data(){
         return {
-            baseMenu:[
-                {
-                    txt:'내 옷장 보기',
-                    type:'mir',
-                    url:'./1',
-                    icon:'None',
-                },
-                {
-                    txt:'내 코디 보기',
-                    type:'mir',
-                    url:'./2',
-                    icon:'None',
-                },
-            ],
-            codyMenu:[
+            VMenu:[
                 {
                     txt:'상의',
                     type:'round',
+                    width:8,
+                    height:8,
+                    iconSize:8,
+                    fontSize:2,
+                    ifBorder:false,
                     url:'./1',
                     icon:'tshirt',
                 },
                 {
                     txt:'하의',
                     type:'round',
-                    url:'./2',
+                    width:8,
+                    height:8,
+                    iconSize:8,
+                    fontSize:2,
+                    ifBorder:false,
+                    url:'./1',
                     icon:'columns',
                 },
                 {
-                    txt:'악세사리',
+                    txt:'아우터',
                     type:'round',
-                    url:'./2',
-                    icon:'ring',
-                }
-            ],
-            bottomMenu:[
+                    width:8,
+                    height:8,
+                    iconSize:8,
+                    fontSize:2,
+                    ifBorder:false,
+                    url:'./1',
+                    icon:'columns',
+                },
                 {
-                    txt:'1',
-                    type:'mir',
+                    txt:'한벌',
+                    type:'round',
+                    width:8,
+                    height:8,
+                    iconSize:8,
+                    fontSize:2,
+                    ifBorder:false,
                     url:'./1',
-                    icon:'None',
+                    icon:'ring',
                 },
-                 {
-                    txt:'2',
-                    type:'mir',
-                    url:'./1',
-                    icon:'None',
-                },
-                 {
-                    txt:'3',
-                    type:'mir',
-                    url:'./1',
-                    icon:'None',
-                } 
             ],
         }
-    }
+    },
 }
 </script>
 
@@ -105,16 +97,16 @@ export default {
 }
 .container{
     display:flex;
-    width:90%;
+    width:100%;
     margin:0 auto;
     position:relative;
     justify-content: center;
     flex-direction: column;
 }
 .greeting{
-    width:90%;
+    width:94%;
     padding-top:1rem;
-    text-align:center; 
+    text-align:left; 
     display:block;
     color:#dadada;
     font-family: 'NanumBarunGothic';
@@ -123,6 +115,7 @@ export default {
 h1 {
     margin:1rem auto;
     font-size:5rem;
+    font-style:normal;
 }
 .mainbox{
     width:100%;

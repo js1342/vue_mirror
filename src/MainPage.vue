@@ -1,7 +1,9 @@
 <template>
   <div id="main-page">
-    <index-header/>
+
+    <index-header v-if="state === 1"/>
     <index-body/>
+    
   </div>
 </template>
 
@@ -13,8 +15,13 @@ export default {
     name:'MainPage',
     components:{
         IndexHeader,
-        IndexBody
-    }
+        IndexBody,
+    },
+    data(){
+      return{
+        state:0
+      }
+    },
 }
 </script>
 

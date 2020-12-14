@@ -1,28 +1,54 @@
 <template>
   <div id="app">
-    <main-page v-if="page === 0"/>
-    <cody-show-page v-else-if="page === 1"/>
-    <camera-page v-else-if="page === 2"/>
+    <top-header/>
+    <main-page v-if="page === 0" />
+    <cody-body @menuSel="menuSelected" :selected="this.menu" v-else-if="page === 1"/>
+    <camera-page @backHome="changePages" v-else-if="page === 2"/>
+    <cody-register-page v-else-if="page === 3"/>
   </div>
 </template>
 
 <script>
 import MainPage from './MainPage.vue';
-import CodyShowPage from './CodyShowPage.vue'
 import CameraPage from './CameraPage.vue'
-
+import TopHeader from './components/TopHeader.vue';
+import CodyBody from './components/CodyBody.vue';
+import { EventBus } from "./components/util/event-bus"
+import CodyRegisterPage from './CodyRegisterPage.vue';
 export default {
   name: 'App',
   components: {
     MainPage,
-    CodyShowPage,
-    CameraPage
+    CameraPage,
+    TopHeader,
+    CodyBody,
+    CodyRegisterPage
   },
   data(){
     return {
-      page : 0
+      page :0,
+      menu: 0
     }
-  }
+  },
+  
+  methods:{
+    changePages(num){
+      this.page = num
+    },
+    menuSelected(id){
+      console.log('menu selected')
+      this.page = 1
+      this.menu = id
+    },
+    msd(id){
+      console.log('selected2')
+      this.page = 1
+      this.menu = id
+    },
+  },
+  created(){
+      EventBus.$on('idSelect', this.msd)
+  },
 }
 </script>
 

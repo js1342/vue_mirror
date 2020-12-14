@@ -23,16 +23,15 @@ export default {
 
 <style scoped>
 .weather {
-    margin:2rem;
+    margin-top:2rem;
     width:15rem;
     height:6rem;
-    margin-right: 0;
+    margin-right:0;
     margin-left: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     color:#dadada;
-    margin-right:2rem;
 }
 .weather-icon{
     font-size:5rem;

@@ -1,6 +1,6 @@
 <template>
     <div class="account-info">
-        <div class="btn-base btn-round">
+        <div class="btn-based btn-round">
             <font-awesome-icon class="mir-icon" icon='user'/>
         </div>
         <div class="text-h3">{{accessID}}</div>
@@ -40,7 +40,7 @@ export default {
     font-family: inherit;
     text-align: center;
 }
-.btn-base{
+.btn-based{
     display:inline-flex;
     text-align:center;  
     border-radius:0.7rem;

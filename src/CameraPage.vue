@@ -1,6 +1,18 @@
 <template>
+  <div class="container">
   <div class="web-camera-container">
-   
+   <div>
+    <div class="camera-download" v-on:click="backToHome">
+      <font-awesome-icon class="icon-size" icon="home"/>
+      
+    </div>
+    <div class="camera-download">
+      <a v-if="isPhotoTaken && isCameraOpen" id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="uploadFile">
+        Upload
+      </a>
+      <a v-else>wait for capture</a>
+    </div>
+  </div>
   
     <div v-show="isCameraOpen && isLoading" class="camera-loading">
       <ul class="loader-circle">
@@ -25,13 +37,8 @@
     </button>
   </div>
   
-  <div v-if="isPhotoTaken && isCameraOpen" class="camera-download">
-    <a id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="uploadFile">
-      Upload
-    </a>
-  </div>
 </div>
-
+</div>
 
 </template>
 
@@ -147,6 +154,9 @@ export default {
         console.log(data.Contents)
       }),"image/jpeg", 1.0)
       //this.$refs.canvas.toBlob
+    },
+    backToHome(){
+      this.$emit("backHome", 0)
     }
   },
   mounted() {
@@ -158,7 +168,14 @@ export default {
 
 <style scoped>
 
-
+.container{
+    display:flex;
+    width:100%;
+    margin:3rem auto;
+    position:relative;
+    justify-content: center;
+    flex-direction: column;
+}
 .web-camera-container {
   margin:auto;
   padding: 2rem;
@@ -166,16 +183,20 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px solid #dadada;
-  box-shadow:0 0 10px #e6e6e6; 
+
   border-radius: 0.7rem;
   width: 80%;
   height:80rem;
   margin-bottom:3rem;
 }
+.icon-size{
+  font-size:5rem;
+}
 .camera-download{
   display:inline-flex;
   text-align:center;  
+  align-items: center;
+  justify-content: center;
   border-radius:0.7rem;
   border:0.2rem solid #dadada;
   justify-content: center;
@@ -201,8 +222,9 @@ export default {
     opacity: 0;
     width: 80%;
     background-color: #dadada;
-    position: absolute;
+
     margin-bottom:2rem;
+    margin-top:4rem;
 }
 .camera-box .camera-shutter.flash {    
     opacity: 1;
