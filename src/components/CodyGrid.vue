@@ -2,12 +2,12 @@
     <div class="grid-img-container">
         <div class="lbutton lr"><font-awesome-icon icon="caret-left"/></div>
 
-        <div class="images grid-img btn-base">{{index}}</div>
-        <div class="images grid-img btn-base">{{index}}</div>
+        <div class="images grid-img">{{index}}</div>
+        <div class="images"><cody-box/></div>
 
         <div class="rbutton lr"><font-awesome-icon icon="caret-right"/></div>
-        <div class="images grid-img btn-base">{{index}}</div>
-        <div class="images grid-img btn-base">{{index}}</div>
+        <div class="images"><cody-box/></div>
+        <div class="images"><cody-box/></div>
 
 
 
@@ -15,8 +15,10 @@
 </template>
 
 <script>
+import CodyBox from './CodyBox.vue'
 
 export default {
+  components: { CodyBox },
     name:'CodyGrid',
     props:{
         index:Number
@@ -36,7 +38,7 @@ export default {
     margin-top:10rem;
     overflow:hidden;
     grid-template-columns:8% 42% 42% 8%;
-    grid-template-rows:repeat(2,40rem);
+    grid-template-rows:repeat(2,50%);
     grid-template-areas:
         "left-button image1 image2 right-button"
         "left-button image3 image4 right-button";
@@ -67,13 +69,15 @@ export default {
     width:80%;
     height:80%;
     display:inline-flex;
+    flex-direction: column;
     justify-content: center;
     margin:0 auto;
+    background-color:#303030;
     color:#dadada;
     font-size:4rem;
     font-family:'NanumBarunGothic';
     padding:1rem;
-    border-radius: 0.5rem;
+    border-radius: 0.2rem;
 }
 .btn-base{
     display:inline-flex;

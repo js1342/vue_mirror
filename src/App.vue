@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <top-header/>
-    <index-body @login="login" v-if="page === 0" :userName="this.getUserName" :SigninState="LoggedUser !== null"/>
+    <index-body @login="login" v-if="page === 0" :token="this.idToken" :userName="this.getUserName" :SigninState="LoggedUser !== null"/>
     <cody-body @menuSel="menuSelected" :selected="this.menu" v-else-if="page === 1"/>
     <camera-page @backHome="changePages" v-else-if="page === 2"/>
     <cody-register-page v-else-if="page === 3"/>
@@ -17,6 +17,7 @@ import CodyRegisterPage from './CodyRegisterPage.vue';
 import IndexBody from './components/IndexBody.vue';
 import { Auth } from 'aws-amplify'
 import Axios from 'axios'
+//import { onAuthUIStateChange} from '@aws-amplify/ui-components'
 
 export default {
   name: 'App',
@@ -32,7 +33,7 @@ export default {
       LoggedUser:null,
       userInfo:null,
       page :0,
-      menu: 0
+      menu: 0,
     }
   },
   
@@ -60,12 +61,13 @@ export default {
     async getUserName(){
       let reqHeader = { headers:{
         'Content-Type':'application/json',
-        'Authorization': this.jwtToken
+        'Authorization': this.idToken
         }
       }
-      let res = await Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user", reqHeader)
+      let res = await Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user", reqHeader).catch(err=>console.log("error occured:",err))
       return res
     },
+   
     async checkLogin(){
       this.LoggedUser = await Auth.currentAuthenticatedUser() 
       this.userInfo = this.getUserName()
@@ -73,15 +75,22 @@ export default {
     
   },
   computed:{
-    jwtToken : function(){
+    accessToken : function(){
       if(this.LoggedUser !== null)
         return this.LoggedUser.signInUserSession.accessToken.jwtToken
       
       return null
     },
+    idToken: function(){
+      if(this.LoggedUser !== null)
+        return this.LoggedUser.signInUserSession.idToken.jwtToken
+      
+      return null
+    }
   },
   created(){
       EventBus.$on('v-menu-selected', this.menuChange)
+      
   },
   mounted(){
     this.checkLogin()

@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <mir-button @idSelect="getCategories" :info="btn"/>
         <div v-if="SigninState">
             <div class="greeting">
                 <h1>안녕하세요? {{this.userName}} 님</h1>
@@ -12,6 +13,7 @@
         <div v-else class="greeting">
             <mir-button @idSelect="gLogin" :info="btn"/>
             <mir-button @idSelect="checkUser" :info="btn"/>
+            
         </div>
 
     </div>
@@ -21,6 +23,7 @@
 import MirButton from './MirButton.vue'
 import VerticalMenu from './VerticalMenu.vue'
 import { Auth } from 'aws-amplify'
+import Axios from 'axios'
 
 export default {
     name:"IndexBody",
@@ -30,7 +33,8 @@ export default {
     },
     props:{
         SigninState:Boolean,
-        userName:undefined
+        userName:undefined,
+        token:null
     },
     methods:{
         async gLogin(){
@@ -39,6 +43,18 @@ export default {
                 console.log(res);
                 this.$emit("login",Auth.currentAuthenticatedUser());
             })
+        },
+        getCategories(){
+            Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/categories").then(res=>console.log(res))
+            let reqHeader = { headers:{
+                'Content-Type':'application/json',
+                'Authorization': this.token
+                }
+            }
+            console.log(reqHeader)
+            Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user",reqHeader).then(res=>console.log(res))
+
+            //Axios.get("https://www.naver.com").then(res=>console.log(res))
         },
         async checkUser(){
             console.log('user: ', Auth.currentAuthenticatedUser())

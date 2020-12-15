@@ -48,12 +48,13 @@ export default {
             var hour = today.getHours()
             let ampm
             if(hour >= 12){
-                hour -= 12
+                if(hour !== 12)
+                    hour -= 12
                 ampm = "PM"
             }
             else
                 ampm = "AM"
-            hour = hour < 10? "0" + hour : hour
+            hour = hour < 10 ? "0" + hour : hour
             let minute = today.getMinutes() < 10? "0" + today.getMinutes() : today.getMinutes()
 
             this.sTime = hour+':'+minute +' '+ampm
