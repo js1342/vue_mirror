@@ -1,8 +1,11 @@
 <template>
   <div class="container">
         <div class="mainbox">
-            <menu-bar @menu-select="menuSelected" :menuItems="codyBar" :selected="this.selected"/>
-            <cody-grid :index="this.selected"/>
+            <div v-if="!showImg" >
+                <menu-bar @menu-select="menuSelected" :menuItems="codyBar" :selected="this.selected"/>
+                <cody-grid :index="this.selected"/>
+            </div>
+            <div v-else v-on:click="this.imageClick">yeah</div>
         </div> 
     </div>
 </template>
@@ -10,6 +13,7 @@
 <script>
 import MenuBar from './MenuBar.vue'
 import CodyGrid from './CodyGrid.vue'
+import { EventBus }from './util/event-bus'
 export default {
     name:"CodyBody",
     components:{
@@ -19,14 +23,9 @@ export default {
     props:{
         selected:Number
     },
-    methods:{
-        menuSelected(input){
-            //this.selected=input
-            this.$emit('menuSel',input)
-        }
-    },
     data(){
         return {
+            showImg:false,
             codyBar:[
                 {
                     txt:'코디',
@@ -61,7 +60,21 @@ export default {
                 
             ],
         }
-    }
+    },
+    methods:{
+        menuSelected(input){
+            //this.selected=input
+            this.$emit('menuSel',input)
+        },
+        imageClick(input){
+            console.log("id:",input, " image has clicked")
+            this.showImg=!this.showImg
+        }
+    },
+    created(){
+        EventBus.$on('imageClick', this.imageClick)
+    },
+    
 }
 </script>
 

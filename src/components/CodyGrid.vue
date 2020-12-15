@@ -3,14 +3,11 @@
         <div class="lbutton lr"><font-awesome-icon icon="caret-left"/></div>
 
         <div class="images grid-img">{{index}}</div>
-        <div class="images"><cody-box/></div>
+        <div class="images"><cody-box :id=2 /></div>
 
         <div class="rbutton lr"><font-awesome-icon icon="caret-right"/></div>
-        <div class="images"><cody-box/></div>
-        <div class="images"><cody-box/></div>
-
-
-
+        <div class="images"><cody-box :id=3 /></div>
+        <div class="images"><cody-box :id=4 /></div>
     </div>
 </template>
 
@@ -25,7 +22,7 @@ export default {
     },
     data(){
         return{
-            dat:0
+            dat:0,
         }
     }
 }

@@ -3,7 +3,7 @@
         <mir-button @idSelect="getCategories" :info="btn"/>
         <div v-if="SigninState">
             <div class="greeting">
-                <h1>안녕하세요? {{this.userName}} 님</h1>
+                <h1>안녕하세요? {{this.userName.data.name}} 님</h1>
                 <mir-button @idSelect="signOut" :info="btn"/>
             </div>
             <div class="mainbox">

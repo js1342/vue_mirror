@@ -1,14 +1,17 @@
 <template>
-    <div class="grid-content">
+    <div class="grid-content" v-on:click="clickGrid">
         <div class="img-box"><img src="https://via.placeholder.com/300x200" /></div>
-        <div class="text">{{category}}ss</div>
+        <div class="text">{{category}}</div>
     </div>
 </template>
 
 <script>
+import { EventBus } from "./util/event-bus"
+
 export default {
     name:'CodyBox',
     props:{
+        id:Number,
         ifCody:Boolean,
         imgUrl:null,
         category:null,
@@ -17,7 +20,12 @@ export default {
         return{
             state:0
         }
-    }
+    },
+    methods:{
+        clickGrid(){
+            EventBus.$emit('imageClick',this.id)
+        }
+    },
 }
 </script>
 
@@ -30,13 +38,13 @@ export default {
 }
 img {
     width:100%;
-    height:80%;
+    height:100%;
     object-fit:fill;
 }
 .img-box{
     width:80%;
 
-    height:300px;
+    height:80%;
     background-color:#8a8a8a;
 }
 .grid-content{

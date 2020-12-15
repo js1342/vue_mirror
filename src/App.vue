@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <top-header/>
-    <index-body @login="login" v-if="page === 0" :token="this.idToken" :userName="this.getUserName" :SigninState="LoggedUser !== null"/>
+    <index-body @login="login" v-if="page === 0" :token="this.idToken" :userName="this.userInfo" :SigninState="LoggedUser !== null"/>
     <cody-body @menuSel="menuSelected" :selected="this.menu" v-else-if="page === 1"/>
     <camera-page @backHome="changePages" v-else-if="page === 2"/>
     <cody-register-page v-else-if="page === 3"/>
@@ -64,13 +64,13 @@ export default {
         'Authorization': this.idToken
         }
       }
-      let res = await Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user", reqHeader).catch(err=>console.log("error occured:",err))
-      return res
+      Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user", reqHeader).then(res=>this.userInfo = res)
+ 
     },
    
     async checkLogin(){
       this.LoggedUser = await Auth.currentAuthenticatedUser() 
-      this.userInfo = this.getUserName()
+      this.getUserName()
     },
     
   },
