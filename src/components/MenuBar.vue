@@ -47,8 +47,7 @@ export default {
             //console.log("hovered["+k+"] : " + this.hovered[k])
         },
         clickAction(id){
-            this.selected = id;
-            this.$emit("menu-select", this.selected)      
+            this.$emit("menu-select", id)      
         }
   }
 }

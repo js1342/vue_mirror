@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 import { library} from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
+import { faGoogle } from "@fortawesome/free-brands-svg-icons"
 //import {} from "@fortawesome/free-regular-svg-icons"
 import {
     faColumns,
@@ -25,6 +25,7 @@ library.add(
     faCaretRight,
     faCaretLeft,
     faHome,
+    faGoogle
     );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

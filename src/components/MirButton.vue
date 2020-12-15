@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="this.type === 'mir'"
+    v-if="this.type === 'mir' || this.type === 'mir-icon'"
     class="btn-base btn-mir"
     :style="{
       width: this.width + 'rem',
@@ -11,10 +11,15 @@
     }"
     v-on:click="this.clickEvent"
   >
-    {{ this.txt }}
+  <span v-if="this.type === 'mir-icon'">
+    <font-awesome-icon :icon="info.icon"/>
+  </span>
+  <span v-else>
+    {{this.txt }}
+  </span>
   </div>
   <div
-    v-else-if="info.btn.type === 'round'"
+    v-else-if="this.type === 'round'"
     class="btn-text"
     :style="{ 'font-size': this.fontSize + 'rem' }"
   >
@@ -29,7 +34,7 @@
       }"
       v-on:click="this.clickEvent"
     >
-      <font-awesome-icon class="mir-icon" :icon="info.btn.icon" />
+      <font-awesome-icon class="mir-icon" :icon="info.icon" />
     </div>
     {{ this.txt }}
   </div>
@@ -51,17 +56,16 @@
   </div>
   <div v-else>
   </div>*/
-import {EventBus} from "./util/event-bus"
 export default {
   name: "mir-button",
   mounted() {
-    if (typeof this.info !== undefined) {
-      if ("type" in this.info.btn) this.type = this.info.btn.type;
-      if ("width" in this.info.btn) this.width = this.info.btn.width;
-      if ("height" in this.info.btn) this.height = this.info.btn.height;
-      if ("fontSize" in this.info.btn) this.fontSize = this.info.btn.fontSize;
-      if ("ifBorder" in this.info.btn) this.ifBorder = this.info.btn.ifBorder;
-      this.txt = this.info.btn.txt;
+    if (this.info !== undefined) {
+      if ("type" in this.info) this.type = this.info.type;
+      if ("width" in this.info) this.width = this.info.width;
+      if ("height" in this.info) this.height = this.info.height;
+      if ("fontSize" in this.info) this.fontSize = this.info.fontSize;
+      if ("ifBorder" in this.info) this.ifBorder = this.info.ifBorder;
+      this.txt = this.info.txt;
     }
   },
   props: {
@@ -81,7 +85,7 @@ export default {
   methods: {
     clickEvent(){
       console.log(this.$vnode.key)
-      EventBus.$emit('idSelect',this.$vnode.key)
+      this.$emit('idSelect',this.$vnode.key)
     },
     setStyle() {
       return "";

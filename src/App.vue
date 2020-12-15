@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <top-header/>
-    <main-page v-if="page === 0" />
+    <index-body @login="login" v-if="page === 0" :userName="this.getUserName" :SigninState="LoggedUser !== null"/>
     <cody-body @menuSel="menuSelected" :selected="this.menu" v-else-if="page === 1"/>
     <camera-page @backHome="changePages" v-else-if="page === 2"/>
     <cody-register-page v-else-if="page === 3"/>
@@ -9,23 +9,28 @@
 </template>
 
 <script>
-import MainPage from './MainPage.vue';
 import CameraPage from './CameraPage.vue'
 import TopHeader from './components/TopHeader.vue';
 import CodyBody from './components/CodyBody.vue';
 import { EventBus } from "./components/util/event-bus"
 import CodyRegisterPage from './CodyRegisterPage.vue';
+import IndexBody from './components/IndexBody.vue';
+import { Auth } from 'aws-amplify'
+import Axios from 'axios'
+
 export default {
   name: 'App',
   components: {
-    MainPage,
     CameraPage,
     TopHeader,
     CodyBody,
-    CodyRegisterPage
+    CodyRegisterPage,
+    IndexBody,
   },
   data(){
     return {
+      LoggedUser:null,
+      userInfo:null,
       page :0,
       menu: 0
     }
@@ -40,15 +45,47 @@ export default {
       this.page = 1
       this.menu = id
     },
-    msd(id){
-      console.log('selected2')
-      this.page = 1
-      this.menu = id
+    menuChange(obj){
+      console.log('selected3: ', obj)
+      if(obj['name'] === 'mainMenu'){
+        this.page = 1
+        this.menu = obj['id']
+      }
+    },
+    async login(user){
+      console.log(user)
+      this.checkLogin()
+
+    },
+    async getUserName(){
+      let reqHeader = { headers:{
+        'Content-Type':'application/json',
+        'Authorization': this.jwtToken
+        }
+      }
+      let res = await Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user", reqHeader)
+      return res
+    },
+    async checkLogin(){
+      this.LoggedUser = await Auth.currentAuthenticatedUser() 
+      this.userInfo = this.getUserName()
+    },
+    
+  },
+  computed:{
+    jwtToken : function(){
+      if(this.LoggedUser !== null)
+        return this.LoggedUser.signInUserSession.accessToken.jwtToken
+      
+      return null
     },
   },
   created(){
-      EventBus.$on('idSelect', this.msd)
+      EventBus.$on('v-menu-selected', this.menuChange)
   },
+  mounted(){
+    this.checkLogin()
+  }
 }
 </script>
 

@@ -2,26 +2,27 @@
     <div class="v-box">
         <h3>내 옷장</h3>
         <div class="v-menu" v-if="btns.length">
-            <mir-button v-for="(btn,idx) in btns" :key="{idx}.idx" :info="{btn}" />
+            <mir-button @idSelect="menuClick(idx)" v-for="(btn,idx) in btns" :key="{idx}.idx" :info="btn" />
         </div>
     </div>
 </template>
 
 <script>
 import MirButton from './MirButton.vue'
-
+import {EventBus} from './util/event-bus'
 export default {
     name:'VerticalMenu',
     components:{
         MirButton
     },
     props:{
-        btns:{type:Array, default:()=>[]}
+        btns:{type:Array, default:()=>[]},
+        identifier:{type:String, required:true}
     },
-    method:{
-        clickAction(id){
+    methods:{
+        menuClick(id){
             console.log('v-menu select')
-            this.$emit("menuSel", id)      
+            EventBus.$emit("v-menu-selected", {name:this.identifier, id:id})      
         }
     }
 }

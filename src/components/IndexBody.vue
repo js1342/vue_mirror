@@ -1,31 +1,65 @@
 <template>
     <div class="container">
-     
-        <div class="greeting">
-            <h1>안녕하세요? 홍길동 님</h1>
+        <div v-if="SigninState">
+            <div class="greeting">
+                <h1>안녕하세요? {{this.userName}} 님</h1>
+                <mir-button @idSelect="signOut" :info="btn"/>
+            </div>
+            <div class="mainbox">
+                <vertical-menu @v-menu-selected="raiseEvent" :identifier="'mainMenu'" :btns="VMenu"/>
+            </div> 
         </div>
-        <div class="mainbox">
-            <vertical-menu @v-menu-selected="raiseEvent" :btns="VMenu"/>
-        </div> 
+        <div v-else class="greeting">
+            <mir-button @idSelect="gLogin" :info="btn"/>
+            <mir-button @idSelect="checkUser" :info="btn"/>
+        </div>
+
     </div>
 </template>
 
 <script>
+import MirButton from './MirButton.vue'
 import VerticalMenu from './VerticalMenu.vue'
-
+import { Auth } from 'aws-amplify'
 
 export default {
     name:"IndexBody",
     components:{
-        VerticalMenu
+        VerticalMenu,
+        MirButton
+    },
+    props:{
+        SigninState:Boolean,
+        userName:undefined
     },
     methods:{
+        async gLogin(){
+            await Auth.federatedSignIn({ provider: 'Google' })
+            .then(res => {
+                console.log(res);
+                this.$emit("login",Auth.currentAuthenticatedUser());
+            })
+        },
+        async checkUser(){
+            console.log('user: ', Auth.currentAuthenticatedUser())
+        },
         raiseEvent(num){
             this.$emit('menuSel', num)
         },
+        async signOut(){
+            await Auth.signOut()
+        }
     },
     data(){
         return {
+            btn:{
+                txt:'',
+                icon:['fab','google'],
+                type:'mir-icon',
+                width:10,
+                height:6,
+                fontSize:5,
+            },
             VMenu:[
                 {
                     txt:'상의',
