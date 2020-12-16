@@ -5,13 +5,12 @@
 </template>
 
 <script>
-import CodyBody from './components/CodyBody.vue'
+
 
 
 export default {
     name:'CodyShowPage',
     components:{
-
         CodyBody
     }
 }

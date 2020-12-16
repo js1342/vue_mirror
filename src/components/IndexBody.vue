@@ -1,9 +1,9 @@
 <template>
     <div class="container">
-        <mir-button @idSelect="getCategories" :info="btn"/>
-        <div v-if="SigninState">
+        <mir-button  @idSelect="getCategories" :info="btn"/>
+        <div v-if="isSignIn">
             <div class="greeting">
-                <h1>안녕하세요? {{this.userName.data.name}} 님</h1>
+                <h1>안녕하세요? {{userName}} 님</h1>
                 <mir-button @idSelect="signOut" :info="btn"/>
             </div>
             <div class="mainbox">
@@ -24,6 +24,7 @@ import MirButton from './MirButton.vue'
 import VerticalMenu from './VerticalMenu.vue'
 import { Auth } from 'aws-amplify'
 import Axios from 'axios'
+import { mapGetters } from 'vuex';
 
 export default {
     name:"IndexBody",
@@ -32,8 +33,7 @@ export default {
         MirButton
     },
     props:{
-        SigninState:Boolean,
-        userName:undefined,
+        userData:undefined,
         token:null
     },
     methods:{
@@ -42,6 +42,7 @@ export default {
             .then(res => {
                 console.log(res);
                 this.$emit("login",Auth.currentAuthenticatedUser());
+                this.$store.commit('Account/userSignInDone',Auth.currentAuthenticatedUser())
             })
         },
         getCategories(){
@@ -53,7 +54,6 @@ export default {
             }
             console.log(reqHeader)
             Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user",reqHeader).then(res=>console.log(res))
-
             //Axios.get("https://www.naver.com").then(res=>console.log(res))
         },
         async checkUser(){
@@ -65,6 +65,12 @@ export default {
         async signOut(){
             await Auth.signOut()
         }
+    },
+    computed:{
+        ...mapGetters({
+            userName:'account/userName',
+            isSignIn:'account/isSignIn'
+        })
     },
     data(){
         return {

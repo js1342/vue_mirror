@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <top-header/>
-    <index-body @login="login" v-if="page === 0" :token="this.idToken" :userName="this.userInfo" :SigninState="LoggedUser !== null"/>
+    <index-body @login="checkLogin" v-if="page === 0" :token="this.idToken" :userData="this.userInfo" :SigninState="LoggedUser !== null"/>
     <cody-body @menuSel="menuSelected" :selected="this.menu" v-else-if="page === 1"/>
     <camera-page @backHome="changePages" v-else-if="page === 2"/>
     <cody-register-page v-else-if="page === 3"/>
@@ -53,11 +53,6 @@ export default {
         this.menu = obj['id']
       }
     },
-    async login(user){
-      console.log(user)
-      this.checkLogin()
-
-    },
     async getUserName(){
       let reqHeader = { headers:{
         'Content-Type':'application/json',
@@ -67,9 +62,10 @@ export default {
       Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user", reqHeader).then(res=>this.userInfo = res)
  
     },
-   
+
     async checkLogin(){
       this.LoggedUser = await Auth.currentAuthenticatedUser() 
+      this.$store.dispatch('account/finishUserSignIn', this.LoggedUser)
       this.getUserName()
     },
     
