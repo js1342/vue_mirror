@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "amplify push --simple && vue-cli-service build",
+    "build": "amplify push --simple -y && vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
