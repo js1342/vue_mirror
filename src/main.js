@@ -3,12 +3,12 @@ import App from './App.vue';
 import "../fontAwesomeIcon.js";
 import '@aws-amplify/ui-vue'
 import Amplify from 'aws-amplify'
-import awsmobile from './aws-exports'
+import awsconfig from './aws-exports'
 import store from './store/store'
 
 
 Vue.config.productionTip = false;
-Amplify.configure(awsmobile);
+Amplify.configure(awsconfig);
 
 new Vue({
     el: "#app",
