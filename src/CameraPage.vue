@@ -138,7 +138,7 @@ export default {
           Bucket: 'clothes-photo'
         }
       })
-
+      console.log(s3)
       // 업로드 함수
       let canvas = document.getElementById("photoTaken")
       canvas.toBlob((blob)=>s3.upload({
