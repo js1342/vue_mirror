@@ -7,7 +7,7 @@
       height: this.height + 'rem',
       'font-size': this.fontSize + 'rem',
       border: ifBorder ? '0.2rem solid #dadada' : '0',
-      'box-shadow': ifBorder ? '0 0 1rem #e6e6e6' : '0',
+      'box-shadow': ifBorder ? '0 0 1rem #e6e6e6' : '0 0 0 0',
     }"
     v-on:click="this.clickEvent"
   >

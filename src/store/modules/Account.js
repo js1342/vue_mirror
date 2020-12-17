@@ -26,7 +26,7 @@ export default{
         },
         uid:state=>{
             return state.userInfo? state.userInfo.data.user_id : null
-        },
+        },  
     },
     mutations: {
         userSignInDone:function(state, data){
@@ -38,7 +38,6 @@ export default{
     },
     actions:{
         async finishUserSignIn(context, data){
-            console.log('finish')
             await context.commit('userSignInDone', data)
             let reqHeader = { headers:{
                 'Content-Type':'application/json',

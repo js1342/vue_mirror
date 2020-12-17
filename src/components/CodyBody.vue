@@ -3,7 +3,7 @@
         <div class="mainbox">
             <div v-if="!showImg" >
                 <menu-bar @menu-select="menuSelected" :menuItems="codyBar" :selected="this.selected"/>
-                <cody-grid :index="this.selected"/>
+                <cody-grid @page-move="pageMove" :limit="this.limit" :page="this.page" :index="this.selected" :imgs="this.categories"/>
             </div>
             <div v-else v-on:click="this.imageClick">yeah</div>
         </div> 
@@ -14,6 +14,7 @@
 import MenuBar from './MenuBar.vue'
 import CodyGrid from './CodyGrid.vue'
 import { EventBus }from './util/event-bus'
+import { mapGetters } from 'vuex'
 export default {
     name:"CodyBody",
     components:{
@@ -25,7 +26,10 @@ export default {
     },
     data(){
         return {
+            categories:null,
             showImg:false,
+            limit:0,
+            page:0,
             codyBar:[
                 {
                     txt:'코디',
@@ -61,19 +65,46 @@ export default {
             ],
         }
     },
+    computed:{
+        ...mapGetters({
+            getCategoriesFrom:'clothes/getCategories',
+            getPaginatedCategories:'clothes/getPaginatedCategories',
+        }),
+    },
     methods:{
+        async pageMove(input){
+            if(this.page > 0 && input === -1)
+                --this.page   
+            if(this.page < this.limit && input === 1)
+                ++this.page
+            await this.getCategories(this.codyBar[this.selected].txt)
+        },
         menuSelected(input){
-            //this.selected=input
             this.$emit('menuSel',input)
+            if (input!=0)
+                this.page = 0
+                this.getCategories(this.codyBar[input].txt)
         },
         imageClick(input){
             console.log("id:",input, " image has clicked")
             this.showImg=!this.showImg
+        },
+        updateClothes(){
+            this.$store.dispatch('clothes/LoadClothes')
+        },
+        async getCategories(cat){
+            let obj = await this.getPaginatedCategories(cat,this.page,4)
+            this.categories = obj.categories
+            this.limit = obj.limit
         }
     },
     created(){
         EventBus.$on('imageClick', this.imageClick)
     },
+
+    mounted(){
+        this.updateClothes()
+    }
     
 }
 </script>
@@ -119,6 +150,7 @@ h1 {
 }
 .mainbox{
     width:100%;
+    height:60%;
     margin-top:1rem;
     display:flex;
     flex-direction: column;

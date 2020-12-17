@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <top-header/>
-    <index-body @login="checkLogin" v-if="page === 0" :token="this.idToken" :userData="this.userInfo" :SigninState="LoggedUser !== null"/>
+    <index-body @login="checkLogin" v-if="page === 0"/>
     <cody-body @menuSel="menuSelected" :selected="this.menu" v-else-if="page === 1"/>
     <camera-page @backHome="changePages" v-else-if="page === 2"/>
     <cody-register-page v-else-if="page === 3"/>
@@ -16,7 +16,6 @@ import { EventBus } from "./components/util/event-bus"
 import CodyRegisterPage from './CodyRegisterPage.vue';
 import IndexBody from './components/IndexBody.vue';
 import { Auth } from 'aws-amplify'
-import Axios from 'axios'
 //import { onAuthUIStateChange} from '@aws-amplify/ui-components'
 
 export default {
@@ -53,40 +52,14 @@ export default {
         this.menu = obj['id']
       }
     },
-    async getUserName(){
-      let reqHeader = { headers:{
-        'Content-Type':'application/json',
-        'Authorization': this.idToken
-        }
-      }
-      Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user", reqHeader).then(res=>this.userInfo = res)
- 
-    },
-
     async checkLogin(){
       this.LoggedUser = await Auth.currentAuthenticatedUser() 
       this.$store.dispatch('account/finishUserSignIn', this.LoggedUser)
-      this.getUserName()
     },
-    
   },
-  computed:{
-    accessToken : function(){
-      if(this.LoggedUser !== null)
-        return this.LoggedUser.signInUserSession.accessToken.jwtToken
-      
-      return null
-    },
-    idToken: function(){
-      if(this.LoggedUser !== null)
-        return this.LoggedUser.signInUserSession.idToken.jwtToken
-      
-      return null
-    }
-  },
+  
   created(){
       EventBus.$on('v-menu-selected', this.menuChange)
-      
   },
   mounted(){
     this.checkLogin()

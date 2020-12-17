@@ -47,13 +47,13 @@ import AWS from 'aws-sdk'
 export default {
     name:'CameraCapture',
     data() {
-    return {
-      isCameraOpen: false,
-      isPhotoTaken: false,
-      isShotPhoto: false,
-      isLoading: false,
-      link: '#'
-    }
+      return {
+        isCameraOpen: false,
+        isPhotoTaken: false,
+        isShotPhoto: false,
+        isLoading: false,
+        link: '#'
+      }
   },
   
   methods: {
@@ -152,6 +152,7 @@ export default {
         }
         alert('Successfully uploaded photo.');
         console.log(data.Contents)
+        console.log(data)
       }),"image/jpeg", 1.0)
       //this.$refs.canvas.toBlob
     },

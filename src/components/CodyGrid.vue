@@ -1,29 +1,50 @@
 <template>
     <div class="grid-img-container">
-        <div class="lbutton lr"><font-awesome-icon icon="caret-left"/></div>
-
-        <div class="images grid-img">{{index}}</div>
-        <div class="images"><cody-box :id=2 /></div>
-
-        <div class="rbutton lr"><font-awesome-icon icon="caret-right"/></div>
-        <div class="images"><cody-box :id=3 /></div>
-        <div class="images"><cody-box :id=4 /></div>
+        <div class="lbutton lr" :style="{color:this.page===0? '#303030':'#dadada'}" v-on:click="pageMove(-1)"><font-awesome-icon icon="caret-left"/></div>
+        <div class="rbutton lr" :style="{color:this.page===limit? '#303030':'#dadada'}" v-on:click="pageMove(1)"><font-awesome-icon icon="caret-right"/></div>
+        <!-- <div class="images" v-for="(item,idx) in this.imgs" :key="{idx}.idx">
+            <cody-box :id=idx :imgUrl="item.url"/>
+        </div> -->
+        <div class="images" v-for="n in 4" :key="n">
+            <cody-box :id="n" :imgUrl="fetchUrl(n)"/>
+        </div>       
     </div>
 </template>
 
 <script>
+/*<div class="images grid-img">{{index}}</div>
+        <div class="images"><cody-box :id=1 :imgUrl="this.imgs[1].url"/></div>
+
+
+        <div class="images"><cody-box :id=2 :imgUrl="this.imgs[2].url"/></div>
+        <div class="images"><cody-box :id=3 :imgUrl="this.imgs[3].url"/></div> */
 import CodyBox from './CodyBox.vue'
+
 
 export default {
   components: { CodyBox },
     name:'CodyGrid',
     props:{
-        index:Number
+        index:Number,
+        imgs:Array,
+        limit:Number,
+        page:Number,
     },
     data(){
         return{
             dat:0,
         }
+    },
+    methods:{
+        pageMove:function(amount){
+            this.$emit('page-move',amount)
+        },
+        fetchUrl(n){
+            if(this.imgs!== null)
+                if(this.imgs.length > n - 1)
+                    return this.imgs[n - 1].url
+            return null
+        },
     }
 }
 </script>
@@ -31,9 +52,12 @@ export default {
 <style scoped>
 .grid-img-container{
     width:100%;
+    height:100%;
     display:grid;
     margin-top:10rem;
     overflow:hidden;
+    align-items: center;
+    align-content: center;
     grid-template-columns:8% 42% 42% 8%;
     grid-template-rows:repeat(2,50%);
     grid-template-areas:

@@ -1,21 +1,20 @@
 <template>
     <div class="container">
-        <mir-button  @idSelect="getCategories" :info="btn"/>
         <div v-if="isSignIn">
             <div class="greeting">
                 <h1>안녕하세요? {{userName}} 님</h1>
-                <mir-button @idSelect="signOut" :info="btn"/>
+               
             </div>
             <div class="mainbox">
                 <vertical-menu @v-menu-selected="raiseEvent" :identifier="'mainMenu'" :btns="VMenu"/>
             </div> 
         </div>
         <div v-else class="greeting">
-            <mir-button @idSelect="gLogin" :info="btn"/>
-            <mir-button @idSelect="checkUser" :info="btn"/>
-            
+            <mir-button @idSelect="gLogin" :info="btn"/>           
         </div>
-
+        <div v-if="isSignIn" class="bottom">
+             <mir-button @idSelect="signOut" :info="signOutBtn"/>
+        </div>
     </div>
 </template>
 
@@ -23,7 +22,6 @@
 import MirButton from './MirButton.vue'
 import VerticalMenu from './VerticalMenu.vue'
 import { Auth } from 'aws-amplify'
-import Axios from 'axios'
 import { mapGetters } from 'vuex';
 
 export default {
@@ -31,10 +29,6 @@ export default {
     components:{
         VerticalMenu,
         MirButton
-    },
-    props:{
-        userData:undefined,
-        token:null
     },
     methods:{
         async gLogin(){
@@ -44,20 +38,6 @@ export default {
                 this.$emit("login",Auth.currentAuthenticatedUser());
                 this.$store.commit('Account/userSignInDone',Auth.currentAuthenticatedUser())
             })
-        },
-        getCategories(){
-            Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/categories").then(res=>console.log(res))
-            let reqHeader = { headers:{
-                'Content-Type':'application/json',
-                'Authorization': this.token
-                }
-            }
-            console.log(reqHeader)
-            Axios.get("https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user",reqHeader).then(res=>console.log(res))
-            //Axios.get("https://www.naver.com").then(res=>console.log(res))
-        },
-        async checkUser(){
-            console.log('user: ', Auth.currentAuthenticatedUser())
         },
         raiseEvent(num){
             this.$emit('menuSel', num)
@@ -81,6 +61,15 @@ export default {
                 width:10,
                 height:6,
                 fontSize:5,
+            },
+            signOutBtn:{
+                txt:'sign out',
+                type:'mir',
+                icon:['fab','google'],
+                ifBorder:false,
+                width:11,
+                height:4,
+                fontSize:3,
             },
             VMenu:[
                 {
@@ -138,8 +127,8 @@ export default {
     display:flex;
     margin-top:auto;
     margin-bottom: 4rem;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: flex-start;
+    flex-direction: row;
 }
 .bottom-txt{
     font-family: 'NanumBarunGothic';

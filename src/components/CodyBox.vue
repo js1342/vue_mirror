@@ -1,6 +1,6 @@
 <template>
     <div class="grid-content" v-on:click="clickGrid">
-        <div class="img-box"><img src="https://via.placeholder.com/300x200" /></div>
+        <div class="img-box"><div class="content"><img v-if="this.isActive" :src="this.imgUrl" /></div></div>
         <div class="text">{{category}}</div>
     </div>
 </template>
@@ -15,6 +15,12 @@ export default {
         ifCody:Boolean,
         imgUrl:null,
         category:null,
+    },
+    computed:{
+        isActive(){
+            return this.imgUrl !== null
+        },
+
     },
     data(){
         return{
@@ -36,30 +42,42 @@ export default {
     color:#dadada;
     font-family:'NanumBarunGothic'
 }
-img {
+.content{
     width:100%;
     height:100%;
+    position:absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+img {
+    margin-top:auto;
+    width:90%;
+    height:90%;
     object-fit:fill;
 }
 .img-box{
     width:80%;
 
-    height:80%;
-    background-color:#8a8a8a;
+    padding-top: 80%;
+    position:relative;
+
+    background-color:#303030;
 }
 .grid-content{
     width:80%;
     height:80%;
+    padding-top:10%;
     display:inline-flex;
     justify-content: center;
     flex-direction: column;
     align-items:center;
     background-color:#303030;
-    margin:0 auto;
+    margin:10% auto;
     color:#dadada;
     font-size:4rem;
     font-family:'NanumBarunGothic';
-    padding:1rem;
     border-radius: 0.5rem;
 }
 </style>
