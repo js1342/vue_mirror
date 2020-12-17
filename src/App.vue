@@ -31,7 +31,7 @@ export default {
     return {
       LoggedUser:null,
       userInfo:null,
-      page :0,
+      page :2,
       menu: 0,
     }
   },
