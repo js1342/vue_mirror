@@ -26,7 +26,10 @@ export default{
         },
         uid:state=>{
             return state.userInfo? state.userInfo.data.user_id : null
-        },  
+        }, 
+        federateUserName:state=>{
+            return state.currentUser? state.currentUser.username : null
+        },
     },
     mutations: {
         userSignInDone:function(state, data){

@@ -44,6 +44,9 @@
 
 <script>
 import AWS from 'aws-sdk'
+import Axios from 'axios'
+import { mapGetters } from 'vuex';
+
 export default {
     name:'CameraCapture',
     data() {
@@ -55,7 +58,12 @@ export default {
         link: '#'
       }
   },
-  
+  computed:{
+    ...mapGetters({
+      idToken:'account/idToken',
+      username:'account/federateUserName'
+    })
+  },
   methods: {
     toggleCamera() {
       if(this.isCameraOpen) {
@@ -142,7 +150,7 @@ export default {
       // 업로드 함수
       let canvas = document.getElementById("photoTaken")
       canvas.toBlob((blob)=>s3.upload({
-        Key: "sending_image.jpeg",
+        Key:  this.username + Date.now() + ".jpeg",
         Body: blob,
         ACL: 'public-read'
       }, (err, data) => {
@@ -150,9 +158,22 @@ export default {
           console.log(err)
           return alert('There was an error: ', err.message);
         }
-        alert('Successfully uploaded photo.');
-        console.log(data.Contents)
-        console.log(data)
+        else{
+          alert('Successfully uploaded photo.');
+          console.log(data)
+          let reqheader = {
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization': this.idToken             
+            }
+          }
+          console.log(data.Location)
+          Axios.post('https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/clothes',
+          {
+            url:data.Location
+          },
+          reqheader).then(res=>console.log(res))
+        }
       }),"image/jpeg", 1.0)
       //this.$refs.canvas.toBlob
     },
@@ -162,7 +183,8 @@ export default {
   },
   mounted() {
     this.toggleCamera();
-  }
+  },
+  
 }
 
 </script>
