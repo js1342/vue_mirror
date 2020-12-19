@@ -3,17 +3,15 @@
         <div v-if="isSignIn">
             <div class="greeting">
                 <h1>안녕하세요? {{userName}} 님</h1>
-               
+                <br>
+                <mir-button class="signout" @idSelect="signOut" :info="signOutBtn"/>
             </div>
             <div class="mainbox">
-                <vertical-menu @v-menu-selected="raiseEvent" :identifier="'mainMenu'" :btns="VMenu"/>
+                <vertical-menu style="margin-top:1rem;" @v-menu-selected="raiseEvent" :identifier="'mainMenu'" :btns="VMenu"/>
             </div> 
         </div>
         <div v-else class="greeting">
             <mir-button @idSelect="gLogin" :info="btn"/>           
-        </div>
-        <div v-if="isSignIn" class="bottom">
-             <mir-button @idSelect="signOut" :info="signOutBtn"/>
         </div>
     </div>
 </template>
@@ -62,8 +60,16 @@ export default {
                 height:6,
                 fontSize:5,
             },
+            registerBtn:{
+                txt:'',
+                icon:['fab','google'],
+                type:'mir-icon',
+                width:4,
+                height:4,
+                fontSize:2,
+            },
             signOutBtn:{
-                txt:'sign out',
+                txt:'로그아웃',
                 type:'mir',
                 icon:['fab','google'],
                 ifBorder:false,
@@ -123,6 +129,10 @@ export default {
 </script>
 
 <style scoped>
+.signout{
+    margin:0;
+    padding:0;
+}
 .bottom{
     display:flex;
     margin-top:auto;
@@ -172,5 +182,10 @@ h1 {
     font-size:3rem;
     font-family: inherit;
     text-align: center;
+}
+#fixedbutton{
+    position:fixed;
+    bottom:10%;
+    left:10%;
 }
 </style>

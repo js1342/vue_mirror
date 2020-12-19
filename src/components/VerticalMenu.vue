@@ -36,7 +36,7 @@ h3 {
     display:flex;
     flex-direction: column;
     align-items: center;
-    margin-top:10rem;
+    margin-top:4rem;
     width:15rem;
     margin-right:2rem;
     margin-bottom: 10rem;

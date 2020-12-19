@@ -13,6 +13,8 @@ import {
     faCaretRight,
     faCaretLeft,
     faHome,
+    faCamera,
+    faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 //library.add();
@@ -25,7 +27,9 @@ library.add(
     faCaretRight,
     faCaretLeft,
     faHome,
-    faGoogle
+    faGoogle,
+    faCamera,
+    faPlus,
     );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

@@ -2,10 +2,7 @@
   <div class="container">
   <div class="web-camera-container">
    <div>
-    <div class="camera-download" v-on:click="backToHome">
-      <font-awesome-icon class="icon-size" icon="home"/>
-      
-    </div>
+    
     <div class="camera-download">
       <a v-if="isPhotoTaken && isCameraOpen" id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="uploadFile">
         Upload

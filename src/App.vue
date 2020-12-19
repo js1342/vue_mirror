@@ -5,6 +5,7 @@
     <cody-body @menuSel="menuSelected" :selected="this.menu" v-else-if="page === 1"/>
     <camera-page @backHome="changePages" v-else-if="page === 2"/>
     <cody-register-page v-else-if="page === 3"/>
+    <bottom-body @b-menu="changePages" />
   </div>
 </template>
 
@@ -16,6 +17,7 @@ import { EventBus } from "./components/util/event-bus"
 import CodyRegisterPage from './CodyRegisterPage.vue';
 import IndexBody from './components/IndexBody.vue';
 import { Auth } from 'aws-amplify'
+import BottomBody from './components/BottomBody.vue';
 //import { onAuthUIStateChange} from '@aws-amplify/ui-components'
 
 export default {
@@ -26,12 +28,13 @@ export default {
     CodyBody,
     CodyRegisterPage,
     IndexBody,
+    BottomBody,
   },
   data(){
     return {
       LoggedUser:null,
       userInfo:null,
-      page :2,
+      page :0,
       menu: 0,
     }
   },

@@ -1,10 +1,15 @@
 <template>
     <div class="grid-menubar" :style="gridStyle">
         <div class="grid-menubox" v-for="(menuItem, idx) in menuItems" :key="{idx}.idx" :class="{ 'grid-seperate' : idx + 1 !== menuSize }">
-            <div class="grid-menuitem" v-on:mouseenter="hoverAction(idx)" v-on:mouseleave="hoverAction(idx)" v-on:click="clickAction(idx)"
+            <div v-if="menuItem.type === 'txt'" class="grid-menuitem" v-on:mouseenter="hoverAction(idx)" v-on:mouseleave="hoverAction(idx)" v-on:click="clickAction(idx)"
             :class="{ 
-                'grid-hover' : hovered[idx]? hovered[idx].hover : false, 
-                'selected' : idx === selected}">{{menuItem.txt}}</div>
+                'grid-hover' : focusSelected && hovered[idx]? hovered[idx].hover : false, 
+                'selected' : idx === selected && focusSelected}">{{menuItem.txt}}</div>
+            <div v-else-if="menuItem.type === 'icon'" class="grid-menuitem" v-on:mouseenter="hoverAction(idx)" v-on:mouseleave="hoverAction(idx)" v-on:click="clickAction(idx)"
+            :class="{ 
+                'grid-hover' : focusSelected && hovered[idx]? hovered[idx].hover : false, 
+                'selected' : idx === selected && focusSelected}">
+                <font-awesome-icon :icon="menuItem.icon"/></div>
         </div>
     </div>
 </template>
@@ -22,7 +27,8 @@ export default {
   name: 'Menubar',
   props:{
     selected:{type:Number, default:0},
-    menuItems:{type:Array, default:()=>[]}
+    menuItems:{type:Array, default:()=>[]},
+    focusSelected:{type:Boolean,default:true}
   },
   computed:{
     menuSize:function(){

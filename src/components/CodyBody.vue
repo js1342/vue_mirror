@@ -31,12 +31,7 @@ export default {
             limit:0,
             page:0,
             codyBar:[
-                {
-                    txt:'코디',
-                    type:'txt',
-                    url:'./1',
-                    icon:'None',
-                },
+                
                 {
                     txt:'상의',
                     type:'txt',

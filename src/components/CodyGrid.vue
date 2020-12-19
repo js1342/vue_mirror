@@ -1,7 +1,7 @@
 <template>
     <div class="grid-img-container">
         <div class="lbutton lr" :style="{color:this.page===0? '#303030':'#dadada'}" v-on:click="pageMove(-1)"><font-awesome-icon icon="caret-left"/></div>
-        <div class="rbutton lr" :style="{color:this.page===limit? '#303030':'#dadada'}" v-on:click="pageMove(1)"><font-awesome-icon icon="caret-right"/></div>
+        <div class="rbutton lr" :style="{color:this.page >= limit? '#303030':'#dadada'}" v-on:click="pageMove(1)"><font-awesome-icon icon="caret-right"/></div>
         <!-- <div class="images" v-for="(item,idx) in this.imgs" :key="{idx}.idx">
             <cody-box :id=idx :imgUrl="item.url"/>
         </div> -->
@@ -76,6 +76,7 @@ export default {
 }
 .lr{
     font-size:7rem;
+    height:90%;
     color: #dadada;
     display:flex;
     margin:0.5rem;

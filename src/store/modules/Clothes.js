@@ -15,7 +15,7 @@ export default{
             return {error:'no clothes loaded'}
         },
         getCategories:(state, getters) => input =>{
-            if (getters.isLoad){
+            if(getters.isLoad){
                 let categories = ["상의","하의","아우터","한벌"]
                 for(var i = 0; i < categories.length; i++){
                     if(categories[i].localeCompare(input) === 0){
@@ -36,6 +36,7 @@ export default{
     },
     mutations: {
         updateClothes:function(state, data){
+            console.log('cloth updated')
             state.ClothesList = data
         },
     },

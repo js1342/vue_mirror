@@ -60,7 +60,7 @@ img {
 .img-box{
     width:80%;
 
-    padding-top: 80%;
+    padding-top: 110%;
     position:relative;
 
     background-color:#303030;
