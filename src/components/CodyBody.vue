@@ -80,12 +80,15 @@ export default {
                 this.page = 0
                 this.getCategories(this.codyBar[input].txt)
         },
+        async load(){
+            await this.getCategories(this.codyBar[this.selected].txt)
+        },
         imageClick(input){
             console.log("id:",input, " image has clicked")
             this.showImg=!this.showImg
         },
-        updateClothes(){
-            this.$store.dispatch('clothes/LoadClothes')
+        async updateClothes(){
+            await this.$store.dispatch('clothes/LoadClothes')
         },
         async getCategories(cat){
             let obj = await this.getPaginatedCategories(cat,this.page,4)
@@ -97,8 +100,9 @@ export default {
         EventBus.$on('imageClick', this.imageClick)
     },
 
-    mounted(){
-        this.updateClothes()
+    mounted: async function(){
+        await this.updateClothes()
+        this.load()
     }
     
 }

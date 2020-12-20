@@ -101,17 +101,6 @@ export default {
                     icon:'columns',
                 },
                 {
-                    txt:'아우터',
-                    type:'round',
-                    width:8,
-                    height:8,
-                    iconSize:8,
-                    fontSize:2,
-                    ifBorder:false,
-                    url:'./1',
-                    icon:'columns',
-                },
-                {
                     txt:'한벌',
                     type:'round',
                     width:8,
@@ -122,6 +111,18 @@ export default {
                     url:'./1',
                     icon:'ring',
                 },
+                {
+                    txt:'아우터',
+                    type:'round',
+                    width:8,
+                    height:8,
+                    iconSize:8,
+                    fontSize:2,
+                    ifBorder:false,
+                    url:'./1',
+                    icon:'columns',
+                },
+                
             ],
         }
     },

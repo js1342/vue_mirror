@@ -6,7 +6,7 @@
             <cody-box :id=idx :imgUrl="item.url"/>
         </div> -->
         <div class="images" v-for="n in 4" :key="n">
-            <cody-box :id="n" :imgUrl="fetchUrl(n)"/>
+            <cody-box :id="n" :clothData="fetchData(n)"/>
         </div>       
     </div>
 </template>
@@ -39,10 +39,22 @@ export default {
         pageMove:function(amount){
             this.$emit('page-move',amount)
         },
-        fetchUrl(n){
+        fetchData(n){
             if(this.imgs!== null)
-                if(this.imgs.length > n - 1)
-                    return this.imgs[n - 1].url
+                if(this.imgs.length > n - 1){
+                    let cloth = {
+                        url:null,
+                        category:null,
+                        color:null
+                    }
+
+                    if('cropped' in this.imgs[n - 1])
+                        cloth.url = this.imgs[n - 1].cropped
+                    else cloth.url =  this.imgs[n - 1].url
+                    cloth.category = this.imgs[n - 1].category_ko
+                    cloth.color = this.imgs[n - 1].color
+                    return cloth
+                }
             return null
         },
     }

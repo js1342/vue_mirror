@@ -1,7 +1,11 @@
 <template>
     <div class="grid-content" v-on:click="clickGrid">
-        <div class="img-box"><div class="content"><img v-if="this.isActive" :src="this.imgUrl" /></div></div>
-        <div class="text">{{category}}</div>
+        <div class="img-box">
+            <div class="content"><img v-if="this.isActive" :src="this.imgUrl" />
+                <div v-if="this.isActive" class="text">{{this.category + "/" + this.color}}</div>
+            </div>
+        </div>
+        
     </div>
 </template>
 
@@ -13,14 +17,27 @@ export default {
     props:{
         id:Number,
         ifCody:Boolean,
-        imgUrl:null,
-        category:null,
+        clothData:Object
     },
     computed:{
         isActive(){
-            return this.imgUrl !== null
+            return this.clothData !== null
         },
-
+        imgUrl(){
+            if(this.isActive)
+                return this.clothData.url
+            else return null
+        },
+        category(){
+            if(this.isActive)
+                return this.clothData.category
+            else return null
+        },
+        color(){
+            if(this.isActive)
+                return this.clothData.color
+            else return null
+        }
     },
     data(){
         return{
@@ -37,7 +54,7 @@ export default {
 
 <style scoped>
 .text{
-    font-size:3rem;
+    font-size:2rem;
     margin-top:1rem;
     color:#dadada;
     font-family:'NanumBarunGothic'
@@ -54,7 +71,7 @@ export default {
 img {
     margin-top:auto;
     width:90%;
-    height:90%;
+    height:70%;
     object-fit:fill;
 }
 .img-box{
