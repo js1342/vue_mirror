@@ -60,7 +60,7 @@ export default {
     },
     methods:{
         clickGrid(){
-            EventBus.$emit('imageClick',this.id)
+            EventBus.$emit('imageClick',{imgId:this.id, isCody:this.ifCody})
         }
     },
 }

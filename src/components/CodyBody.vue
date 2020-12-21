@@ -3,9 +3,13 @@
         <div class="mainbox">
             <div v-if="!showImg" >
                 <menu-bar @menu-select="menuSelected" :menuItems="codyBar" :selected="this.selected"/>
-                <cody-grid @page-move="pageMove" :limit="this.limit" :page="this.page" :index="this.selected" :imgs="this.categories"/>
+                <cody-grid  @page-move="pageMove" :limit="this.limit" :page="this.page" :index="this.selected" :imgs="this.categories"/>
             </div>
-            <div v-else v-on:click="this.imageClick">yeah</div>
+            <div v-else v-on:click="this.imageClick">
+                <div class="big-img-box">
+                    <img :src="showImgUrl"/>
+                </div>
+            </div>
         </div> 
     </div>
 </template>
@@ -30,6 +34,8 @@ export default {
             cody:null,
             categories:null,
             showImg:false,
+            showImgId:0,
+            showCody:false,
             limit:0,
             page:0,
             codyBar:[
@@ -73,6 +79,9 @@ export default {
             getPaginatedCategories:'clothes/getPaginatedCategories',
             idToken:'account/idToken'
         }),
+        showImgUrl(){
+            return this.categories[this.showImgId - 1].cropped
+        }
     },
     methods:{
         async pageMove(input){
@@ -112,6 +121,9 @@ export default {
         imageClick(input){
             console.log("id:",input, " image has clicked")
             this.showImg=!this.showImg
+            this.showImgId = input.imgId
+            this.showCody = input.ifCody
+            
         },
         async updateClothes(){
             await this.$store.dispatch('clothes/LoadClothes')
@@ -120,7 +132,9 @@ export default {
             let obj = await this.getPaginatedCategories(cat,this.page,4)
             this.categories = obj.categories
             this.limit = obj.limit
-        }
+        },
+        
+        
     },
     created(){
         EventBus.$on('imageClick', this.imageClick)
@@ -135,6 +149,11 @@ export default {
 </script>
 
 <style scoped>
+.big-img-box img{
+    margin-top:13   rem;
+    width:80%;
+    height:50rem;
+}
 .bottom{
     display:flex;
     margin-top:auto;

@@ -54,7 +54,7 @@ export default {
                             if (this.imgs[n - 1] !== null)
                                 if (arr[i] in this.imgs[n - 1]['outfit']){
                                     clothes[arr[i]] = {}
-                                    console.log(arr[i], 'exist in ',i, n - 1)
+                           
                                     if('cropped' in this.imgs[n - 1]['outfit'][arr[i]])
                                         clothes[arr[i]].url = this.imgs[n - 1]['outfit'][arr[i]].cropped
                                     else clothes[arr[i]].url =  this.imgs[n - 1]['outfit'][arr[i]].url
