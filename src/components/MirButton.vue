@@ -84,7 +84,6 @@ export default {
   },
   methods: {
     clickEvent(){
-      console.log(this.$vnode.key)
       this.$emit('idSelect',this.$vnode.key)
     },
     setStyle() {

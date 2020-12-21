@@ -50,7 +50,6 @@ export default {
   methods:{
         hoverAction:function(k){
             this.hovered[k].hover = !this.hovered[k].hover
-            //console.log("hovered["+k+"] : " + this.hovered[k])
         },
         clickAction(id){
             this.$emit("menu-select", id)      

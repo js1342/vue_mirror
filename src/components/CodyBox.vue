@@ -60,7 +60,11 @@ export default {
     },
     methods:{
         clickGrid(){
-            EventBus.$emit('imageClick',{imgId:this.id, isCody:this.ifCody})
+            let output = {}
+            output['isCody'] = this.ifCody
+            output['clothData'] = this.clothData
+            output['imgId'] = this.id
+            EventBus.$emit('imageClick',output)
         }
     },
 }

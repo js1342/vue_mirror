@@ -60,7 +60,6 @@ export default {
         },
         bottomMenuSelected(num){
             this.selected = num
-            console.log(num)
             let target = num + 1
             if(num == 0)
                 target = 0

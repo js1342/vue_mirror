@@ -6,8 +6,24 @@
                 <cody-grid  @page-move="pageMove" :limit="this.limit" :page="this.page" :index="this.selected" :imgs="this.categories"/>
             </div>
             <div v-else v-on:click="this.imageClick">
-                <div class="big-img-box">
-                    <img :src="showImgUrl"/>
+                <div v-if="!this.showCody" class="big-img-box">
+                    <div class="one-image">
+                       <img :src="showImgUrl"/>
+                    </div>
+                </div>
+                <div v-else-if="this.showCody" class="big-img-box">
+                    <div class="register-grid">
+                    <div class="register-grid-cell">
+                        <img v-if="'top' in showImgData" :src="showImgData['top'].url">
+                        <img v-else /> 
+                        <img v-if="'bottom' in showImgData" :src="showImgData['bottom'].url">
+                        <img v-else /> 
+                    </div>
+                    <div class="register-grid-cell">
+                        <img v-if="'outer' in showImgData" :src="showImgData['outer'].url">
+                        <img v-else /> 
+                    </div>
+                    </div>
                 </div>
             </div>
         </div> 
@@ -36,6 +52,7 @@ export default {
             showImg:false,
             showImgId:0,
             showCody:false,
+            showImgData:null,
             limit:0,
             page:0,
             codyBar:[
@@ -80,7 +97,11 @@ export default {
             idToken:'account/idToken'
         }),
         showImgUrl(){
-            return this.categories[this.showImgId - 1].cropped
+            if(!this.showCody)
+                return this.showImgData.url
+            else{
+                return this.showImgData
+            }
         }
     },
     methods:{
@@ -119,10 +140,10 @@ export default {
             await this.getCategories(this.codyBar[this.selected].txt)
         },
         imageClick(input){
-            console.log("id:",input, " image has clicked")
             this.showImg=!this.showImg
             this.showImgId = input.imgId
-            this.showCody = input.ifCody
+            this.showCody = input.isCody
+            this.showImgData = input.clothData
             
         },
         async updateClothes(){
@@ -149,8 +170,28 @@ export default {
 </script>
 
 <style scoped>
-.big-img-box img{
-    margin-top:13   rem;
+.register-grid{
+    width:100%;
+    display:grid;
+    margin-top:20rem;
+
+    grid-template-columns:50% 50%;
+}
+.register-grid-cell{
+    height:50rem;
+    
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content:center;
+}
+.register-grid-cell img{
+    margin:10% 0;
+    width:60%;
+    height:40%;
+}
+.one-image img{
+    margin-top:20rem;
     width:80%;
     height:50rem;
 }
