@@ -5,9 +5,9 @@
     
     <div class="camera-download">
       <a v-if="isPhotoTaken && isCameraOpen" id="downloadPhoto" download="my-photo.jpg" class="button" role="button" @click="uploadFile">
-        Upload
+        {{this.message}}
       </a>
-      <a v-else>wait for capture</a>
+      <a v-else>{{this.message}}</a>
     </div>
   </div>
   
@@ -48,6 +48,7 @@ export default {
     name:'CameraCapture',
     data() {
       return {
+        message: 'wait for capture',
         isCameraOpen: false,
         isPhotoTaken: false,
         isShotPhoto: false,
@@ -103,24 +104,36 @@ export default {
 				track.stop();
 			});
     },
-    
+    setMessage(input){
+      this.message = input
+    },
     takePhoto() {
       if(!this.isPhotoTaken) {
-        this.isShotPhoto = true;
+
 
         const FLASH_TIMEOUT = 50;
-
+        setTimeout(()=>{this.message = '5'}, 1000)
+        setTimeout(()=>{this.message = '4'}, 2000)
+        setTimeout(()=>{this.message = '3'}, 3000)
+        setTimeout(()=>{this.message = '2'}, 4000)
+        setTimeout(()=>{this.message = '1'}, 5000)
+        setTimeout(() => {
+          this.isShotPhoto = true;
+        }, 6000);
         setTimeout(() => {
           this.isShotPhoto = false;
-        }, FLASH_TIMEOUT);
-      }
-      
-      this.isPhotoTaken = !this.isPhotoTaken;
-      
-      const context = this.$refs.canvas.getContext('2d');
-      context.drawImage(this.$refs.camera, 0, 0, 640, 480);
+          this.message = 'captured';
+          this.isPhotoTaken = !this.isPhotoTaken;
+          
+          const context = this.$refs.canvas.getContext('2d');
+          context.drawImage(this.$refs.camera, 0, 0, 640, 480);
+          this.message = 'upload';
+        }, 6000 + FLASH_TIMEOUT);
+      }   
     },
-    
+    doTakePhoto(){
+
+    },
     downloadImage() {
       const download = document.getElementById("downloadPhoto");
       const canvas = document.getElementById("photoTaken").toDataURL("image/jpeg")
@@ -173,10 +186,12 @@ export default {
         }
       }),"image/jpeg", 1.0)
       //this.$refs.canvas.toBlob
+      this.message = 'wait for capture'
     },
     backToHome(){
       this.$emit("backHome", 0)
     }
+
   },
   mounted() {
     this.toggleCamera();

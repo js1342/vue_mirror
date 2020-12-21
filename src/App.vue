@@ -2,9 +2,9 @@
   <div id="app">
     <top-header/>
     <index-body @login="checkLogin" v-if="page === 0"/>
-    <cody-body @menuSel="menuSelected" :selected="this.menu" v-else-if="page === 1"/>
+    <cody-body @menuSel="menuSelected" :selected="this.menu + 1" v-else-if="page === 1"/>
     <camera-page @backHome="changePages" v-else-if="page === 2"/>
-    <cody-register-page v-else-if="page === 3"/>
+    <cody-register-page @backHome="changePages" v-else-if="page === 3"/>
     <bottom-body @b-menu="changePages" />
   </div>
 </template>

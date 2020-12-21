@@ -6,7 +6,8 @@
             <cody-box :id=idx :imgUrl="item.url"/>
         </div> -->
         <div class="images" v-for="n in 4" :key="n">
-            <cody-box :id="n" :clothData="fetchData(n)"/>
+            <cody-box :id="n" v-if="getIndex == 0" :ifCody="true" :clothData="fetchData(n)"/>
+            <cody-box :id="n" v-else :clothData="fetchData(n)"/>
         </div>       
     </div>
 </template>
@@ -36,6 +37,7 @@ export default {
         }
     },
     methods:{
+
         pageMove:function(amount){
             this.$emit('page-move',amount)
         },
@@ -56,6 +58,11 @@ export default {
                     return cloth
                 }
             return null
+        },
+    },
+    computed:{
+        getIndex(){
+            return this.index
         },
     }
 }

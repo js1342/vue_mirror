@@ -12,7 +12,7 @@ export default{
         getClothes:(state,getters)=>{
             if(getters.isLoad)
                 return state.ClothesList.data
-            return {error:'no clothes loaded'}
+            return null
         },
         getCategories:(state, getters) => input =>{
             if(getters.isLoad){

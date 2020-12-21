@@ -15,6 +15,7 @@ import MenuBar from './MenuBar.vue'
 import CodyGrid from './CodyGrid.vue'
 import { EventBus }from './util/event-bus'
 import { mapGetters } from 'vuex'
+import Axios from 'axios'
 export default {
     name:"CodyBody",
     components:{
@@ -26,12 +27,18 @@ export default {
     },
     data(){
         return {
+            cody:null,
             categories:null,
             showImg:false,
             limit:0,
             page:0,
             codyBar:[
-                
+                {
+                    txt:'코디',
+                    type:'txt',
+                    url:'./2',
+                    icon:'None',
+                },
                 {
                     txt:'상의',
                     type:'txt',
@@ -64,6 +71,7 @@ export default {
         ...mapGetters({
             getCategoriesFrom:'clothes/getCategories',
             getPaginatedCategories:'clothes/getPaginatedCategories',
+            idToken:'account/idToken'
         }),
     },
     methods:{
@@ -75,10 +83,24 @@ export default {
             await this.getCategories(this.codyBar[this.selected].txt)
         },
         menuSelected(input){
-            this.$emit('menuSel',input)
-            if (input!=0)
+            this.$emit('menuSel',input-1)
+            if (input != 0){
                 this.page = 0
                 this.getCategories(this.codyBar[input].txt)
+            }
+            else{
+               this.getCody()
+            }
+        },
+        async getCody(){
+            let reqheader={
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization': await this.idToken             
+                }
+            }
+            let res = await Axios.get('https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/outfit',reqheader)
+            this.cody = res
         },
         async load(){
             await this.getCategories(this.codyBar[this.selected].txt)
