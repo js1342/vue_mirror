@@ -100,7 +100,11 @@ export default {
                 }
             }
             let res = await Axios.get('https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/outfit',reqheader)
-            this.cody = res
+            if('data' in res){
+                this.cody = res.data
+                this.categories = res.data.slice(this.page, this.page + 4)
+            }
+            
         },
         async load(){
             await this.getCategories(this.codyBar[this.selected].txt)

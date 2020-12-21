@@ -8,11 +8,14 @@
         <div class="img-box" v-else-if="ifCody">
             <div class="register-grid">
             <div class="register-grid-cell">
-                <img />
-                <img /> 
+                <img v-if="'top' in clothData" :src="clothData['top'].url">
+                <img v-else /> 
+                <img v-if="'bottom' in clothData" :src="clothData['bottom'].url">
+                <img v-else /> 
             </div>
             <div class="register-grid-cell">
-                <img  />
+                <img v-if="'outer' in clothData" :src="clothData['outer'].url">
+                <img v-else /> 
             </div>
             </div>
         </div>
@@ -86,8 +89,10 @@ export default {
 
 }
 .register-grid-cell img{
-    width:60%;
+    width:80%;
     height:40%;
+    margin:10% 10%;
+    object-fit:fill;
 }
 .text{
     font-size:2rem;
@@ -110,12 +115,7 @@ export default {
     height:70%;
     object-fit:fill;
 }
-.register-grid-cell img {
-    width:90%;
-    height:40%;
-    margin:10% 10%;
-    object-fit:fill;
-}
+
 .img-box{
     width:90%;
 

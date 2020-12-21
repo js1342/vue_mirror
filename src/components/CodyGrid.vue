@@ -37,26 +37,51 @@ export default {
         }
     },
     methods:{
-
         pageMove:function(amount){
             this.$emit('page-move',amount)
         },
         fetchData(n){
             if(this.imgs!== null)
-                if(this.imgs.length > n - 1){
-                    let cloth = {
-                        url:null,
-                        category:null,
-                        color:null
+                if(this.getIndex == 0){
+                    if(this.imgs.length > n - 1){
+                        
+                        
+                        let clothes = {
+                            
+                        }
+                        let arr = ['top','bottom','outer']
+                        for(var i = 0; i<arr.length; i++){
+                            if (this.imgs[n - 1] !== null)
+                                if (arr[i] in this.imgs[n - 1]['outfit']){
+                                    clothes[arr[i]] = {}
+                                    console.log(arr[i], 'exist in ',i, n - 1)
+                                    if('cropped' in this.imgs[n - 1]['outfit'][arr[i]])
+                                        clothes[arr[i]].url = this.imgs[n - 1]['outfit'][arr[i]].cropped
+                                    else clothes[arr[i]].url =  this.imgs[n - 1]['outfit'][arr[i]].url
+                                    clothes[arr[i]].category = this.imgs[n - 1]['outfit'][arr[i]].category_ko
+                                    clothes[arr[i]].color = this.imgs[n - 1]['outfit'][arr[i]].color
+                                }
+                        }
+                        return clothes
                     }
-
-                    if('cropped' in this.imgs[n - 1])
-                        cloth.url = this.imgs[n - 1].cropped
-                    else cloth.url =  this.imgs[n - 1].url
-                    cloth.category = this.imgs[n - 1].category_ko
-                    cloth.color = this.imgs[n - 1].color
-                    return cloth
                 }
+                else{
+                    if(this.imgs.length > n - 1){
+                        let cloth = {
+                            url:null,
+                            category:null,
+                            color:null
+                        }
+
+                        if('cropped' in this.imgs[n - 1])
+                            cloth.url = this.imgs[n - 1].cropped
+                        else cloth.url =  this.imgs[n - 1].url
+                        cloth.category = this.imgs[n - 1].category_ko
+                        cloth.color = this.imgs[n - 1].color
+                        return cloth
+                    }
+                }
+                
             return null
         },
     },
