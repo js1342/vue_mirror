@@ -51,16 +51,17 @@ export default {
                         }
                         let arr = ['top','bottom','outer']
                         for(var i = 0; i<arr.length; i++){
-                            if (this.imgs[n - 1] !== null)
+                            if (this.imgs[n - 1] !== null){
                                 if (arr[i] in this.imgs[n - 1]['outfit']){
                                     clothes[arr[i]] = {}
-                           
+                        
                                     if('cropped' in this.imgs[n - 1]['outfit'][arr[i]])
                                         clothes[arr[i]].url = this.imgs[n - 1]['outfit'][arr[i]].cropped
                                     else clothes[arr[i]].url =  this.imgs[n - 1]['outfit'][arr[i]].url
                                     clothes[arr[i]].category = this.imgs[n - 1]['outfit'][arr[i]].category_ko
                                     clothes[arr[i]].color = this.imgs[n - 1]['outfit'][arr[i]].color
                                 }
+                            }
                         }
                         return clothes
                     }
