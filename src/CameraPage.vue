@@ -202,7 +202,10 @@ export default {
 </script>
 
 <style scoped>
-
+video {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
 .container{
     display:flex;
     width:100%;
