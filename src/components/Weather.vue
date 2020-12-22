@@ -62,14 +62,17 @@ export default {
       return sky_state
     },
     computedTemp(){
-    if(this.weatherData){
-        for(var i=0;i<this.weatherData.length;i++){
-          if(this.weatherData[i].category === "T3H"){
-            return this.weatherData[i].fcstValue
+      if(this.weatherData !== null){
+        console.log('no')
+          for(var i=0;i<this.weatherData.length;i++){
+            if(this.weatherData[i].category === "T3H"){
+              return this.weatherData[i].fcstValue
+            }
           }
       }
-    }
-  },
+      return 0
+    },
+    
   },
   
   methods:{
