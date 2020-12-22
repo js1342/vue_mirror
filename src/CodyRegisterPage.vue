@@ -4,11 +4,12 @@
             <menu-bar @menu-select="menuSelected" :menuItems="codyBar" :selected="this.selected"/>
             <div v-if="this.page === 0 " class="carousel-div">        
                 <div class="grid-img-container">
-                    <div class="lr"><font-awesome-icon icon="caret-left"/></div>
+                    <div class="lr" :style="{color:this.topPage===0? '#303030':'#dadada'}" v-on:click="clickLeft('top')"><font-awesome-icon icon="caret-left"/></div>
                     <div>
                         <carousel @page-change="setTopPage"
-                            :navigateTo="[topPage,false]"
+                            
                             :perPage="1" 
+                            :value="topPage"
                             :paginationEnabled="false" 
                             style="color:white;">
                         <slide id='0' :key="0" class="grid-image">
@@ -19,14 +20,14 @@
                         </slide>
                     </carousel>
                     </div>
-                    <div class="lr"><font-awesome-icon icon="caret-right"/></div>
+                    <div class="lr" :style="{color:this.topPage >= this.topLimit? '#303030':'#dadada'}" v-on:click="clickRight('top')"><font-awesome-icon icon="caret-right"/></div>
                 </div>
                 <div class="grid-img-container">
-                    <div class="lr"><font-awesome-icon icon="caret-left"/></div>
+                    <div class="lr" :style="{color:this.botPage===0? '#303030':'#dadada'}" v-on:click="clickLeft('bottom')"><font-awesome-icon icon="caret-left"/></div>
                     <div>
                         <carousel @page-change="setBotPage"
                             :perPage="1"
-                            :navigateTo="[botPage,false]" 
+                            :value="botPage"
                             :paginationEnabled="false" 
                             style="color:white;">
                         <slide id='0' :key="0" class="grid-image">
@@ -37,16 +38,16 @@
                         </slide>
                     </carousel>
                     </div>
-                    <div class="lr"><font-awesome-icon icon="caret-right"/></div>
+                    <div class="lr" :style="{color:this.botPage >= this.botLimit? '#303030':'#dadada'}" v-on:click="clickRight('bottom')"><font-awesome-icon icon="caret-right"/></div>
                 </div>
                 
             </div>
             <div v-else-if="this.page === 1" class="carousel-div">
                 <div class="grid-img-container">
-                    <div class="lr"><font-awesome-icon icon="caret-left"/></div>
+                    <div class="lr" :style="{color:this.outerPage===0? '#303030':'#dadada'}" v-on:click="clickLeft('outer')"><font-awesome-icon icon="caret-left"/></div>
                     <div>
                         <carousel @page-change="setOuterPage"
-                            :navigateTo="[outerPage,false]"
+                            :value="outerPage"
                             :perPage="1" 
                             :paginationEnabled="false" 
                             style="color:white;">
@@ -58,7 +59,7 @@
                         </slide>
                     </carousel>
                     </div>
-                    <div class="lr"><font-awesome-icon icon="caret-right"/></div>
+                    <div class="lr" :style="{color:this.outerPage >= this.outerLimit? '#303030':'#dadada'}" v-on:click="clickRight('outer')"><font-awesome-icon icon="caret-right"/></div>
                 </div>
             </div>
             <div v-else-if="this.page === 2" class="carousel-div">
@@ -163,6 +164,34 @@ export default {
             this.selected = num
             this.page = num
         },
+        clickLeft(cat){
+            if(cat == "top"){
+                if(this.topPage > 0)
+                    this.topPage--
+            }
+            else if(cat == 'bottom'){
+                if(this.botPage > 0)
+                    this.botPage--
+            }
+            else if(cat == 'outer'){
+                if(this.outerPage > 0)
+                    this.outerPage--
+            }
+        },
+        clickRight(cat){
+            if(cat == "top"){
+                if(this.topPage < this.clothesData.top.length )
+                    this.topPage++
+            }
+            else if(cat == 'bottom'){
+                if(this.botPage < this.clothesData.bottom.length )
+                    this.botPage++
+            }
+            else if(cat == 'outer'){
+                if(this.outerPage < this.clothesData.outer.length )
+                    this.outerPage++
+            }
+        },
         registerCody(){
             let reqheader = {
                 headers:{
@@ -195,6 +224,26 @@ export default {
             getClothes:'clothes/getCategories',
             idToken:'account/idToken',
         })
+        ,
+        topLimit(){
+            if(this.clothesData !== undefined){
+                return this.clothesData.top.length
+            }
+            return 0
+        },
+        botLimit(){
+            if(this.clothesData !== undefined){
+                return this.clothesData.bottom.length
+            }
+            return 0
+        },
+        outerLimit(){
+            if(this.clothesData !== undefined){
+                return this.clothesData.outer.length
+            }
+            return 0
+        },
+
     },
     mounted:function(){
         this.updateClothes()
@@ -218,7 +267,7 @@ img {
     display:grid;
     margin-top:5rem;
     overflow:hidden;
-    grid-template-columns:8% 84% 8%;
+    grid-template-columns:15% 70% 15%;
 }
 .register-grid{
     width:100%;
