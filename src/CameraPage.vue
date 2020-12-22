@@ -169,7 +169,7 @@ export default {
           return alert('There was an error: ', err.message);
         }
         else{
-          alert('Successfully uploaded photo.');
+          this.message = 'upload success';
           console.log(data)
           let reqheader = {
             headers:{

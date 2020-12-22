@@ -16,7 +16,7 @@ export default{
         },
         getCategories:(state, getters) => input =>{
             if(getters.isLoad){
-                let categories = ["상의","하의","아우터","한벌"]
+                let categories = ["상의","하의","아우터","한벌옷"]
                 for(var i = 0; i < categories.length; i++){
                     if(categories[i].localeCompare(input) === 0){
                         return getters.getClothes.filter(getClothes => getClothes.category.localeCompare(input) === 0) 
