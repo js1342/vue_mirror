@@ -4,7 +4,7 @@
       <font-awesome-icon :icon="this.skyState.icon"/>
     </div>
     <div class="weather-text">
-        {{this.computedTemp}}℃/{{this.skyState.sky}}
+        {{this.computedTemp}}℃
     </div>
   </div>
 </template>
@@ -36,10 +36,10 @@ export default {
             }
             else if(this.weatherData[i].fcstValue === 1){
               sky_state.sky = '비'
-               sky_state.icon='cloud-rain'
+               sky_state.icon='cloud-showers-heavy'
             }
             else if(this.weatherData[i].fcstValue === 2){
-              sky_state.sky = '비/눈'
+              sky_state.sky = '비&눈'
                sky_state.icon='cloud-rain'
             }
             else if(this.weatherData[i].fcstValue === 3){
@@ -51,8 +51,8 @@ export default {
               sky_state.icon='cloud-showers-heavy'
             }
             else{
-              sky_state.sky = '비2'
-              sky_state.icon='cloud-showers-heavy'
+              sky_state.sky = '빗방울'
+              sky_state.icon='cloud-rain'
             }
           }          
         }
@@ -134,7 +134,7 @@ export default {
 
 <style scoped>
 .weather {
-    margin-top:2rem;
+    margin-top:4rem;
     width:15rem;
     height:6rem;
     margin-right:0;
