@@ -5,6 +5,7 @@
     </div>
     <div class="weather-text">
         {{temperature}}℃<br>
+        {{this.computedTemp}}℃<br>
         {{this.wlog}}
         {{this.skyState.sky}}/
         {{this.skyState.cloud}}
@@ -59,8 +60,18 @@ export default {
 
       }
       return sky_state
+    },
+    computedTemp(){
+    if(this.weatherData){
+        for(var i=0;i<this.weatherData.length;i++){
+          if(this.weatherData[i].category === "T3H"){
+            return this.weatherData[i].fcstValue
+          }
+      }
     }
   },
+  },
+  
   methods:{
     async getWeather(){
       // eslint-disable-next-line no-unused-vars
