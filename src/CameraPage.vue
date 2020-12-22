@@ -109,8 +109,6 @@ export default {
     },
     takePhoto() {
       if(!this.isPhotoTaken) {
-
-
         const FLASH_TIMEOUT = 50;
         setTimeout(()=>{this.message = '5'}, 1000)
         setTimeout(()=>{this.message = '4'}, 2000)
@@ -129,7 +127,7 @@ export default {
           context.drawImage(this.$refs.camera, 0, 0, 640, 480);
           this.message = 'upload';
         }, 6000 + FLASH_TIMEOUT);
-      }   
+      }      
     },
     doTakePhoto(){
 
@@ -169,7 +167,6 @@ export default {
           return alert('There was an error: ', err.message);
         }
         else{
-          this.message = 'upload success';
           console.log(data)
           let reqheader = {
             headers:{
@@ -182,11 +179,15 @@ export default {
           {
             url:data.Location
           },
-          reqheader).then(res=>console.log(res))
+          reqheader).then(res=>{
+            console.log(res)
+            this.isPhotoTaken = false
+            this.message = 'upload success'
+          })
         }
       }),"image/jpeg", 1.0)
       //this.$refs.canvas.toBlob
-      this.message = 'wait for capture'
+      this.message = 'uploading';
     },
     backToHome(){
       this.$emit("backHome", 0)
