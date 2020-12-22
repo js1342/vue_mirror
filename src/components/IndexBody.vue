@@ -120,7 +120,7 @@ export default {
                     fontSize:2,
                     ifBorder:false,
                     url:'./1',
-                    icon:'columns',
+                    icon:'tshirt',
                 },
                 
             ],
