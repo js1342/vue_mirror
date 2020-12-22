@@ -1,14 +1,10 @@
 <template>
   <div class="weather">
     <div class="weather-icon">
-      <font-awesome-icon icon="sun"/>
+      <font-awesome-icon :icon="this.skyState.icon"/>
     </div>
     <div class="weather-text">
-        {{temperature}}℃<br>
-        {{this.computedTemp}}℃<br>
-        {{this.wlog}}
-        {{this.skyState.sky}}/
-        {{this.skyState.cloud}}
+        {{this.computedTemp}}℃/{{this.skyState.sky}}
     </div>
   </div>
 </template>
@@ -22,40 +18,43 @@ export default {
     return {
       temperature:-1,
       token:"Rair%2Fre56eda6xixemOcvSp0bqkhfyaYyKHyrXGoLQFwuHVJKj2ILq4JKc1Ms9wgAxBg0u1W006zWtOZ3uI6Kw%3D%3D",
-      api:"http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=",
+      api:"http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst?serviceKey=",
       weatherData:null,
       wlog:'',
+      icon:'sun',
     }
   },
   computed:{
     skyState(){
-      let sky_state = {sky:'없음', cloud:'없음'}
+      let sky_state = {sky:'없음',icon:'sun'}
       if(this.weatherData){
         for(var i=0;i<this.weatherData.length;i++){
           if(this.weatherData[i].category === "PTY"){
-            if(this.weatherData[i].fcstValue === 0)
+            if(this.weatherData[i].fcstValue === 0){
               sky_state.sky = '맑음'
-            else if(this.weatherData[i].fcstValue === 1)
+              sky_state.icon='sun'
+            }
+            else if(this.weatherData[i].fcstValue === 1){
               sky_state.sky = '비'
-            else if(this.weatherData[i].fcstValue === 2)
+               sky_state.icon='cloud-rain'
+            }
+            else if(this.weatherData[i].fcstValue === 2){
               sky_state.sky = '비/눈'
-            else if(this.weatherData[i].fcstValue === 3)
+               sky_state.icon='cloud-rain'
+            }
+            else if(this.weatherData[i].fcstValue === 3){
               sky_state.sky = '눈'
-            else if(this.weatherData[i].fcstValue === 4)
+              sky_state.icon='snowflake'
+            }
+            else if(this.weatherData[i].fcstValue === 4){
               sky_state.sky = '소나기'
-            else
+              sky_state.icon='cloud-showers-heavy'
+            }
+            else{
               sky_state.sky = '비2'
-          }
-          else if(this.weatherData[i].category === "SKY"){
-            if(this.weatherData[i].fcstValue === 1)
-              sky_state.cloud = '맑음'
-            else if(this.weatherData[i].fcstValue === 3)
-              sky_state.cloud = '구름많음'
-            else if(this.weatherData[i].fcstValue === 4)
-              sky_state.cloud = '흐림'
-            else
-              sky_state.cloud = '오류'
-          }
+              sky_state.icon='cloud-showers-heavy'
+            }
+          }          
         }
 
       }
@@ -72,33 +71,19 @@ export default {
       }
       return 0
     },
-    
-  },
-  
-  methods:{
-    async getWeather(){
-      // eslint-disable-next-line no-unused-vars
-      let url1="http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=Rair%2Fre56eda6xixemOcvSp0bqkhfyaYyKHyrXGoLQFwuHVJKj2ILq4JKc1Ms9wgAxBg0u1W006zWtOZ3uI6Kw%3D%3D&pageNo=1&numOfRows=10&dataType=XML&base_date=20151201&base_time=0500&nx=1&ny=1"
-      // eslint-disable-next-line no-unused-vars
-      let url2="http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=Rair%2Fre56eda6xixemOcvSp0bqkhfyaYyKHyrXGoLQFwuHVJKj2ILq4JKc1Ms9wgAxBg0u1W006zWtOZ3uI6Kw%3D%3D&pageNo=1&numOfRows=10&dataType=XML&base_date=20151201&base_time=0500&nx=1&ny=1"
-      // eslint-disable-next-line no-unused-vars
-      let reqheader = {
-        params:{
-          pageNo:1,
-          numOfRows:10,
-          dataType:'JSON',
-          base_date:this.getFullDate(),
-          base_time:this.getFullTime(),
-          nx:61,    //sac 아트홀, 서울 강남구 삼성동
-          ny:125
-        }
-      }
-      let res = await Axios.get(this.api + this.token, reqheader).catch(err=>console.log(err))
-      console.log(res)
-      this.wlog = res
-      this.weatherData='response' in res ? res.response.body.items.item : res.body.items.item
+    getFullTime(){
+      var d = new Date(),
+      hour = d.getHours(),
+      minute = '' + d.getMinutes();
+      if (hour >= 1)
+        --hour;
+      if (hour.length < 2) 
+          hour = '0' + hour;
+      if (minute.length < 2) 
+          minute = '0' + minute
+      let base_times = hour + '00'
+      return base_times
     },
-    
     getFullDate(){
       var d = new Date(),
       month = '' + (d.getMonth() + 1),
@@ -112,18 +97,34 @@ export default {
 
       return [year, month, day].join('');
     },
-    getFullTime(){
-      var d = new Date(),
-      hour = (d.getHours() + 1),
-      minute = '' + d.getMinutes();
-
-      if (hour.length < 2) 
-          hour = '0' + hour;
-      if (minute.length < 2) 
-          minute = '0' + minute;
-
-      return [hour,minute].join('');
-    }
+    
+  },
+  
+  methods:{
+    async getWeather(){
+      // eslint-disable-next-line no-unused-vars
+      let url1="http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=Rair%2Fre56eda6xixemOcvSp0bqkhfyaYyKHyrXGoLQFwuHVJKj2ILq4JKc1Ms9wgAxBg0u1W006zWtOZ3uI6Kw%3D%3D&pageNo=1&numOfRows=10&dataType=XML&base_date=20151201&base_time=0500&nx=1&ny=1"
+      // eslint-disable-next-line no-unused-vars
+      let url2="http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=Rair%2Fre56eda6xixemOcvSp0bqkhfyaYyKHyrXGoLQFwuHVJKj2ILq4JKc1Ms9wgAxBg0u1W006zWtOZ3uI6Kw%3D%3D&pageNo=1&numOfRows=10&dataType=XML&base_date=20151201&base_time=0500&nx=1&ny=1"
+      // eslint-disable-next-line no-unused-vars
+      let reqheader = {
+        params:{
+          pageNo:1,
+          numOfRows:20,
+          dataType:'JSON',
+          base_date:this.getFullDate,
+          base_time:this.getFullTime,
+          nx:61,    //sac 아트홀, 서울 강남구 삼성동
+          ny:125
+        }
+      }
+      let res = await Axios.get(this.api + this.token, reqheader).catch(err=>console.log(err))
+      this.wlog = res
+      if(res)
+        this.weatherData=res.data.response.body.items.item
+    },
+    
+    
   },
   mounted(){
     this.getWeather()

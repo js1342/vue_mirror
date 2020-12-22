@@ -15,6 +15,9 @@ import {
     faHome,
     faCamera,
     faPlus,
+    faCloudRain,
+    faCloudShowersHeavy,
+    faSnowflake,
 } from "@fortawesome/free-solid-svg-icons";
 
 //library.add();
@@ -30,6 +33,9 @@ library.add(
     faGoogle,
     faCamera,
     faPlus,
+    faCloudRain,
+    faCloudShowersHeavy,
+    faSnowflake,
     );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
