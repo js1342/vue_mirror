@@ -75,7 +75,7 @@ export default {
                     icon:'None',
                 },
                  {
-                    txt:'한벌',
+                    txt:'한벌옷',
                     type:'txt',
                     url:'./2',
                     icon:'None',

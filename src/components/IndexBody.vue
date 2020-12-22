@@ -101,7 +101,7 @@ export default {
                     icon:'columns',
                 },
                 {
-                    txt:'한벌',
+                    txt:'한벌옷',
                     type:'round',
                     width:8,
                     height:8,
