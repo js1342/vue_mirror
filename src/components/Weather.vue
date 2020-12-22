@@ -25,28 +25,31 @@ export default {
     }
   },
   computed:{
+    weatherSky(){
+      return this.weatherData[0].obsrValue
+    },
     skyState(){
       let sky_state = {sky:'없음',icon:'sun'}
       if(this.weatherData){
         for(var i=0;i<this.weatherData.length;i++){
           if(this.weatherData[i].category === "PTY"){
-            if(this.weatherData[i].fcstValue === 0){
+            if(this.weatherData[i].obsrValue == 0){
               sky_state.sky = '맑음'
               sky_state.icon='sun'
             }
-            else if(this.weatherData[i].fcstValue === 1){
+            else if(this.weatherData[i].obsrValue == 1){
               sky_state.sky = '비'
                sky_state.icon='cloud-showers-heavy'
             }
-            else if(this.weatherData[i].fcstValue === 2){
+            else if(this.weatherData[i].obsrValue == 2){
               sky_state.sky = '비&눈'
                sky_state.icon='cloud-rain'
             }
-            else if(this.weatherData[i].fcstValue === 3){
+            else if(this.weatherData[i].obsrValue == 3){
               sky_state.sky = '눈'
               sky_state.icon='snowflake'
             }
-            else if(this.weatherData[i].fcstValue === 4){
+            else if(this.weatherData[i].obsrValue == 4){
               sky_state.sky = '소나기'
               sky_state.icon='cloud-showers-heavy'
             }
@@ -64,8 +67,8 @@ export default {
       if(this.weatherData !== null){
         console.log('no')
           for(var i=0;i<this.weatherData.length;i++){
-            if(this.weatherData[i].category === "T3H"){
-              return this.weatherData[i].fcstValue
+            if(this.weatherData[i].category === "T1H"){
+              return this.weatherData[i].obsrValue
             }
           }
       }
