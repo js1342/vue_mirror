@@ -4,7 +4,10 @@
       <font-awesome-icon icon="sun"/>
     </div>
     <div class="weather-text">
-        {{temperature}}℃
+        {{temperature}}℃<br>
+        {{this.wlog}}
+        {{this.skyState.sky}}/
+        {{this.skyState.cloud}}
     </div>
   </div>
 </template>
@@ -20,6 +23,7 @@ export default {
       token:"Rair%2Fre56eda6xixemOcvSp0bqkhfyaYyKHyrXGoLQFwuHVJKj2ILq4JKc1Ms9wgAxBg0u1W006zWtOZ3uI6Kw%3D%3D",
       api:"http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=",
       weatherData:null,
+      wlog:'',
     }
   },
   computed:{
@@ -75,9 +79,10 @@ export default {
           ny:125
         }
       }
-      //let res = await Axios.get(this.api + this.token, reqheader).catch(err=>console.log(err))
-      //console.log(res)
-      //this.weatherData='response' in res ? res.response.body.items.item : res.body.items.item
+      let res = await Axios.get(this.api + this.token, reqheader).catch(err=>console.log(err))
+      console.log(res)
+      this.wlog = res
+      this.weatherData='response' in res ? res.response.body.items.item : res.body.items.item
     },
     
     getFullDate(){
