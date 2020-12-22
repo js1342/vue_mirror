@@ -4,7 +4,7 @@
       <font-awesome-icon icon="sun"/>
     </div>
     <div class="weather-text">
-        {{temperature}}℃{{this.skyState.sky + this.skyState.cloud}}
+        {{temperature}}℃
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   name: 'Weather',
   data:function(){
     return {
-      temperature:36.5,
+      temperature:-1,
       token:"Rair%2Fre56eda6xixemOcvSp0bqkhfyaYyKHyrXGoLQFwuHVJKj2ILq4JKc1Ms9wgAxBg0u1W006zWtOZ3uI6Kw%3D%3D",
       api:"http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=",
       weatherData:null,

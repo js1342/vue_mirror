@@ -4,18 +4,18 @@
         <div class="datebox">{{sDate}}</div>
         <div class="times">{{sTime}}</div>
     </div>
-    <!-- <weather/> -->
+    <weather/>
   </div>
 </template>
 
 <script>
-//import Weather from './Weather.vue';
+import Weather from './Weather.vue';
 
 
 export default {
     name:'TopHeader',
     components:{
-       // Weather
+       Weather
     },
     created() {
         setInterval(this.getNow, 1000);
