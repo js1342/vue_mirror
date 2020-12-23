@@ -4,7 +4,7 @@
       <font-awesome-icon :icon="this.skyState.icon"/>
     </div>
     <div class="weather-text">
-        {{this.temperature}}℃
+        {{this.computedTemp}}℃
     </div>
   </div>
 </template>
