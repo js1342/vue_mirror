@@ -133,6 +133,7 @@ export default {
             if('data' in res){
                 this.cody = res.data
                 this.categories = res.data.slice(this.page, this.page + 4)
+                this.limit = (res.data.length % 4 === 0) ? res.data.length / 4 - 1 : Math.floor(res.data.length / 4)
             }
             
         },
